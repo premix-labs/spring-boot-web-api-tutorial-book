@@ -1,0 +1,137 @@
+---
+title: 02 - เตรียมเครื่องมือ
+description: เตรียม Java, IDE, Gradle, Postman, PostgreSQL และ Git
+---
+
+## เป้าหมายของบท
+
+บทนี้เตรียมเครื่องมือที่ต้องใช้ตลอดเล่ม เพื่อให้ผู้อ่านสร้าง Spring Boot project, รัน API, ทดสอบ endpoint และเชื่อมต่อ database ได้
+
+## เครื่องมือหลัก
+
+| เครื่องมือ | ใช้ทำอะไร |
+| --- | --- |
+| Java 25 LTS | compile และรัน Spring Boot |
+| IntelliJ IDEA | เขียนโค้ด Java และรัน project |
+| Gradle | จัดการ dependency, test, build |
+| Postman | ทดสอบ REST API |
+| PostgreSQL | database หลักของโปรเจกต์ |
+| Git | เก็บ version ของ source code |
+
+## ตรวจ Java
+
+เปิด terminal แล้วรัน:
+
+```powershell
+java -version
+```
+
+ควรเห็น version ของ JDK เช่น:
+
+```text
+openjdk version "25.0.x"
+```
+
+ถ้า command นี้ใช้ไม่ได้ แปลว่าเครื่องยังหา Java ไม่เจอ ให้ตั้งค่า `JAVA_HOME` และ `PATH` ก่อน
+
+## ตรวจ Git
+
+```powershell
+git --version
+```
+
+ถ้าใช้ Git ได้ ควรเห็น version เช่น:
+
+```text
+git version 2.x.x
+```
+
+## ทำไมต้องใช้ Postman
+
+ระหว่างเรียน backend เรายังไม่มี frontend Postman จึงใช้แทน client เพื่อส่ง HTTP request เข้า API ได้โดยตรง
+
+ตัวอย่างที่ Postman ช่วยทดสอบ:
+
+- `GET /hello`
+- `POST /api/v1/auth/register`
+- `POST /api/v1/auth/login`
+- `GET /api/v1/auth/me`
+
+## เตรียม PostgreSQL
+
+ในช่วงแรกยังไม่ใช้ database ทันที แต่ควรติดตั้งไว้ก่อน เพราะภาค 3 จะเริ่มใช้ PostgreSQL จริง
+
+สิ่งที่ต้องรู้:
+
+- host ปกติคือ `localhost`
+- port ปกติคือ `5432`
+- username ที่พบบ่อยคือ `postgres`
+- ต้องสร้าง database ก่อนให้ Spring Boot เชื่อมต่อ
+
+ตัวอย่าง database name ที่ใช้ในหนังสือ:
+
+```text
+secure_admin
+```
+
+## คำสั่ง Gradle ที่ใช้บ่อย
+
+บน macOS/Linux:
+
+```powershell
+./gradlew bootRun
+./gradlew test
+./gradlew build
+```
+
+บน Windows:
+
+```powershell
+.\gradlew.bat bootRun
+.\gradlew.bat test
+.\gradlew.bat build
+```
+
+## ปัญหาที่พบบ่อย
+
+### JAVA_HOME is not set
+
+terminal ยังไม่รู้ว่า JDK อยู่ที่ไหน ให้ตั้ง `JAVA_HOME` ไปยัง path ของ JDK
+
+### Port 8080 ถูกใช้งานอยู่
+
+เปลี่ยน port ได้ใน `application.properties`
+
+```properties
+server.port=8081
+```
+
+### PostgreSQL ต่อไม่ได้
+
+ตรวจสอบ:
+
+- service PostgreSQL เปิดอยู่หรือไม่
+- port ถูกต้องหรือไม่
+- database name มีอยู่จริงหรือไม่
+- username/password ถูกต้องหรือไม่
+
+## Checkpoint
+
+ก่อนอ่านต่อ ควรรัน command เหล่านี้ผ่าน:
+
+```powershell
+java -version
+git --version
+```
+
+และควรเปิด Postman ได้
+
+## แบบฝึกหัดท้ายบท
+
+สร้าง folder สำหรับงานหนังสือ เช่น:
+
+```text
+spring-boot-learning/
+```
+
+แล้วเตรียมไว้สำหรับสร้าง project ในบทถัดไป

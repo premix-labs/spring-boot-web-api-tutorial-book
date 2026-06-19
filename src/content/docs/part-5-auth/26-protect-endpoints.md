@@ -1,0 +1,172 @@
+---
+title: 26 - Protect Endpoints
+description: กำหนด public/protected/admin endpoints ด้วย Spring Security
+---
+
+## เป้าหมายของบท
+
+บทนี้จะปรับ security rule ให้ชัดเจนว่า endpoint ไหนเปิดสาธารณะ endpoint ไหนต้อง login และ endpoint ไหนต้องเป็น admin
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- public endpoint คืออะไร
+- protected endpoint คืออะไร
+- admin-only endpoint คืออะไร
+- ใช้ `requestMatchers` อย่างไร
+- map role จาก JWT claim ให้ใช้ `hasRole("ADMIN")` ได้อย่างไร
+
+## Endpoint ที่ต้องการ
+
+```text
+Public:
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+
+Protected:
+GET  /api/v1/auth/me
+GET  /api/v1/users
+GET  /api/v1/users/{id}
+
+Admin only:
+/api/v1/admin/**
+```
+
+## ปรับ SecurityConfig
+
+```java
+@Bean
+public SecurityFilterChain securityFilterChain(
+        HttpSecurity http,
+        JwtAuthenticationConverter jwtAuthenticationConverter
+) throws Exception {
+    return http
+            .csrf(AbstractHttpConfigurer::disable)
+            .sessionManagement(session -> session
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            )
+            .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/api/v1/auth/register", "/api/v1/auth/login").permitAll()
+                    .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+            )
+            .oauth2ResourceServer(oauth2 -> oauth2
+                    .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter))
+            )
+            .build();
+}
+```
+
+เพราะเราใช้ JWT จึงตั้ง session เป็น `STATELESS` เพื่อให้ backend ไม่ต้องเก็บ session ฝั่ง server
+
+## Map roles claim เป็น authority
+
+ใน JWT เราใส่ claim:
+
+```json
+{
+  "roles": ["USER"]
+}
+```
+
+แต่ Spring Security ต้องการ authority แบบ:
+
+```text
+ROLE_USER
+ROLE_ADMIN
+```
+
+จึงต้องเพิ่ม converter:
+
+```java
+@Bean
+public JwtAuthenticationConverter jwtAuthenticationConverter() {
+    JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter =
+            new JwtGrantedAuthoritiesConverter();
+    grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+    grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+
+    JwtAuthenticationConverter jwtAuthenticationConverter =
+            new JwtAuthenticationConverter();
+    jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+
+    return jwtAuthenticationConverter;
+}
+```
+
+import:
+
+```java
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+```
+
+## สร้าง endpoint admin ตัวอย่าง
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/controller/AdminController.java
+```
+
+```java
+package com.example.secureadmin.controller;
+
+import com.example.secureadmin.common.ApiResponse;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/admin")
+public class AdminController {
+
+    @GetMapping("/dashboard")
+    public ApiResponse<String> dashboard() {
+        return ApiResponse.ok("Admin dashboard", "Only ADMIN can access this endpoint");
+    }
+}
+```
+
+## สิ่งที่ต้องทดสอบ
+
+| Request | ไม่ใส่ token | USER token | ADMIN token |
+| --- | --- | --- | --- |
+| `POST /api/v1/auth/register` | ผ่าน | ผ่าน | ผ่าน |
+| `POST /api/v1/auth/login` | ผ่าน | ผ่าน | ผ่าน |
+| `GET /api/v1/auth/me` | 401 | ผ่าน | ผ่าน |
+| `GET /api/v1/users` | 401 | ผ่าน | ผ่าน |
+| `GET /api/v1/admin/dashboard` | 401 | 403 | ผ่าน |
+
+`401 Unauthorized` หมายถึงยังไม่ได้ login หรือ token ไม่ถูกต้อง
+
+`403 Forbidden` หมายถึง login แล้ว แต่สิทธิ์ไม่พอ
+
+## ทำไมไม่ให้ client ส่ง role ตอน register
+
+ถ้า client ส่ง role ได้เอง ผู้ใช้ทั่วไปอาจสมัครเป็น admin ได้
+
+ดังนั้น register ควรกำหนด role เริ่มต้นเป็น `USER` ที่ backend เสมอ ส่วนการเปลี่ยน role ต้องทำผ่าน admin endpoint ในภาคถัดไป
+
+## Checkpoint ปิดภาค Login/Register
+
+หลังจบบทนี้ ระบบควรทำได้:
+
+- register user
+- hash password
+- login ด้วย email/password
+- คืน JWT
+- เรียก `/me` ด้วย token
+- lock endpoint ด้วย Spring Security
+- แยก public/protected/admin endpoint
+
+นี่คือฐานหลักของ backend ที่ใช้งานจริงได้ในหลายโปรเจกต์
+
+## แบบฝึกหัดท้ายบท
+
+1. ปรับ `SecurityConfig` ให้ public เฉพาะ register/login
+2. เพิ่ม `JwtAuthenticationConverter`
+3. สร้าง `AdminController`
+4. ทดสอบ `/me` โดยไม่มี token
+5. ทดสอบ `/admin/dashboard` ด้วย USER token
+6. สร้าง ADMIN user ใน database แล้วทดสอบอีกครั้ง
+

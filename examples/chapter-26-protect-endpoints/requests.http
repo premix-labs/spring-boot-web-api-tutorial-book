@@ -1,0 +1,39 @@
+### Register user
+POST http://localhost:8080/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "john",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Login and copy token
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Public endpoint should work
+POST http://localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Protected endpoint without token should fail with 401
+GET http://localhost:8080/api/v1/auth/me
+
+### Protected endpoint with token should work
+GET http://localhost:8080/api/v1/auth/me
+Authorization: Bearer {{token}}
+
+### Admin endpoint with USER token should fail with 403
+GET http://localhost:8080/api/v1/admin/dashboard
+Authorization: Bearer {{token}}
+

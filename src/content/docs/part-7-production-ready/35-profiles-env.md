@@ -1,0 +1,117 @@
+---
+title: 35 - Profiles และ Environment Variables
+description: แยก config dev, test, prod และย้าย secret ไปไว้ใน environment variables
+---
+
+## เป้าหมายของบท
+
+บทนี้จะจัดระเบียบ configuration ให้รองรับหลาย environment เช่น local, test และ production
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- Spring profile คืออะไร
+- แยก `application-dev.properties` และ `application-prod.properties` อย่างไร
+- ใช้ environment variable อย่างไร
+- ค่า secret อะไรไม่ควร commit ลง Git
+- run app ด้วย profile ที่ต้องการอย่างไร
+
+## โครงสร้างไฟล์ config
+
+```text
+src/main/resources/
+  application.properties
+  application-dev.properties
+  application-test.properties
+  application-prod.properties
+```
+
+ไฟล์กลาง `application.properties` ควรเก็บค่าที่ใช้ร่วมกัน
+
+ไฟล์ profile เฉพาะเก็บค่าที่ต่างกันตาม environment
+
+## application.properties
+
+```properties
+spring.application.name=secure-admin-api
+spring.profiles.active=${SPRING_PROFILES_ACTIVE:dev}
+
+spring.jpa.open-in-view=false
+spring.flyway.enabled=true
+spring.flyway.locations=classpath:db/migration
+
+app.jwt.expiration-seconds=${JWT_EXPIRATION_SECONDS:86400}
+app.jwt.issuer=${JWT_ISSUER:secure-admin-api}
+```
+
+ค่า default profile เป็น `dev` เพื่อให้ local รันง่าย
+
+## application-dev.properties
+
+```properties
+spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/secure_admin}
+spring.datasource.username=${DB_USERNAME:postgres}
+spring.datasource.password=${DB_PASSWORD:admin123}
+
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=true
+
+logging.level.com.example.secureadmin=DEBUG
+
+app.jwt.secret=${JWT_SECRET:0123456789012345678901234567890123456789012345678901234567890123}
+```
+
+dev อาจมี default เพื่อให้เริ่มง่าย แต่ production ไม่ควรมี secret default
+
+## application-prod.properties
+
+```properties
+spring.datasource.url=${DB_URL}
+spring.datasource.username=${DB_USERNAME}
+spring.datasource.password=${DB_PASSWORD}
+
+spring.jpa.hibernate.ddl-auto=validate
+spring.jpa.show-sql=false
+
+logging.level.com.example.secureadmin=INFO
+logging.level.org.springframework.security=WARN
+
+app.jwt.secret=${JWT_SECRET}
+```
+
+ถ้า production ไม่มี `JWT_SECRET` หรือ database config app ควร start ไม่สำเร็จ ดีกว่ารันด้วยค่า default ที่ไม่ปลอดภัย
+
+## run ด้วย profile
+
+PowerShell:
+
+```powershell
+$env:SPRING_PROFILES_ACTIVE="prod"
+java -jar build/libs/secure-admin-api-0.0.1-SNAPSHOT.jar
+```
+
+หรือ:
+
+```powershell
+java -jar build/libs/secure-admin-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+```
+
+## ค่าอะไรควรเป็น environment variable
+
+- database URL
+- database username/password
+- JWT secret
+- external API keys
+- mail credentials
+- cloud credentials
+
+ห้าม commit ค่าเหล่านี้ลง Git
+
+## แบบฝึกหัดท้ายบท
+
+1. สร้าง `application-dev.properties`
+2. สร้าง `application-prod.properties`
+3. ย้าย database config ไปไว้ใน profile
+4. ย้าย JWT secret ไปใช้ environment variable
+5. รัน app ด้วย profile `dev`
+6. รัน app ด้วย profile `prod` โดยส่ง env vars ให้ครบ
+

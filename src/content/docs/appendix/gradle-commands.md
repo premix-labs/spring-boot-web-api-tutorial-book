@@ -1,0 +1,37 @@
+---
+title: Gradle Commands
+description: คำสั่ง Gradle ที่ใช้บ่อย
+---
+```powershell
+./gradlew bootRun
+./gradlew test
+./gradlew build
+./gradlew clean
+```
+
+บน Windows ใช้:
+
+```powershell
+.\gradlew.bat bootRun
+.\gradlew.bat test
+.\gradlew.bat build
+```
+
+## คำสั่งสำหรับตรวจ dependency
+
+```powershell
+.\gradlew.bat dependencies
+```
+
+## คำสั่งสำหรับ clean แล้ว build ใหม่
+
+```powershell
+.\gradlew.bat clean build
+```
+
+## ใช้เมื่อไร
+
+- `bootRun`: ระหว่างเขียนและทดสอบ API
+- `test`: ก่อน commit
+- `build`: ก่อน deploy หรือก่อนส่งงาน
+- `clean`: เมื่อสงสัยว่า build cache ทำให้ผลลัพธ์เพี้ยน

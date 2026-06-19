@@ -1,0 +1,16 @@
+### Find all users as admin
+GET http://localhost:8080/api/v1/admin/users?page=0&size=20
+Authorization: Bearer {{adminToken}}
+
+### Filter active users
+GET http://localhost:8080/api/v1/admin/users?page=0&size=20&status=ACTIVE
+Authorization: Bearer {{adminToken}}
+
+### Filter admin users
+GET http://localhost:8080/api/v1/admin/users?page=0&size=20&role=ADMIN
+Authorization: Bearer {{adminToken}}
+
+### Search by keyword
+GET http://localhost:8080/api/v1/admin/users?page=0&size=20&keyword=john
+Authorization: Bearer {{adminToken}}
+

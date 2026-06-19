@@ -1,0 +1,11 @@
+### Admin endpoint without token should fail with 401
+GET http://localhost:8080/api/v1/admin/dashboard
+
+### Admin endpoint with USER token should fail with 403
+GET http://localhost:8080/api/v1/admin/dashboard
+Authorization: Bearer {{userToken}}
+
+### Admin endpoint with ADMIN token should work
+GET http://localhost:8080/api/v1/admin/dashboard
+Authorization: Bearer {{adminToken}}
+

@@ -1,0 +1,255 @@
+---
+title: 17 - Exception Handling
+description: ใช้ @RestControllerAdvice จัดการ error ให้ response อ่านง่ายและสม่ำเสมอ
+---
+
+## เป้าหมายของบท
+
+บทก่อนหน้าเราเพิ่ม validation แล้ว แต่ error response จาก Spring Boot ยังอาจอ่านยาก บทนี้จะสร้างระบบจัดการ error กลางด้วย `@RestControllerAdvice`
+
+หลังจบบทนี้ผู้อ่านควรทำได้:
+
+- สร้าง custom exception
+- แปลง exception เป็น HTTP status ที่เหมาะสม
+- จัดการ validation error จาก `@Valid`
+- ส่ง error response ที่มี `status`, `message`, `path`, `timestamp`
+- เลิกโยน `RuntimeException` แบบกว้าง ๆ ใน service
+
+## ปัญหาของ RuntimeException
+
+ในบทก่อน service อาจมีโค้ดแบบนี้:
+
+```java
+throw new RuntimeException("User not found");
+```
+
+ปัญหาคือ `RuntimeException` ไม่ได้บอกว่า error นี้ควรเป็น HTTP status อะไร
+
+กรณี user ไม่มีอยู่ควรเป็น:
+
+```text
+404 Not Found
+```
+
+กรณี username/email ซ้ำควรเป็น:
+
+```text
+409 Conflict
+```
+
+กรณี request body ผิด validation ควรเป็น:
+
+```text
+400 Bad Request
+```
+
+ดังนั้นเราจะสร้าง exception ให้ชัดขึ้น
+
+## สร้าง UserNotFoundException
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/exception/UserNotFoundException.java
+```
+
+```java
+package com.example.secureadmin.exception;
+
+public class UserNotFoundException extends RuntimeException {
+
+    public UserNotFoundException(Long id) {
+        super("User not found with id: " + id);
+    }
+}
+```
+
+## สร้าง DuplicateUserException
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/exception/DuplicateUserException.java
+```
+
+```java
+package com.example.secureadmin.exception;
+
+public class DuplicateUserException extends RuntimeException {
+
+    public DuplicateUserException(String message) {
+        super(message);
+    }
+}
+```
+
+ชื่อ exception ควรสื่อปัญหาให้ชัด ไม่ใช่ทุกอย่างเป็น `RuntimeException`
+
+## สร้าง ErrorResponse
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/common/ErrorResponse.java
+```
+
+```java
+package com.example.secureadmin.common;
+
+import java.time.LocalDateTime;
+import java.util.Map;
+
+public record ErrorResponse(
+        boolean success,
+        int status,
+        String message,
+        String path,
+        LocalDateTime timestamp,
+        Map<String, String> errors
+) {
+    public static ErrorResponse of(int status, String message, String path) {
+        return new ErrorResponse(false, status, message, path, LocalDateTime.now(), null);
+    }
+
+    public static ErrorResponse validation(
+            int status,
+            String message,
+            String path,
+            Map<String, String> errors
+    ) {
+        return new ErrorResponse(false, status, message, path, LocalDateTime.now(), errors);
+    }
+}
+```
+
+field `errors` ใช้สำหรับ validation error หลาย field เช่น username, email, password
+
+## สร้าง GlobalExceptionHandler
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/exception/GlobalExceptionHandler.java
+```
+
+```java
+package com.example.secureadmin.exception;
+
+import com.example.secureadmin.common.ErrorResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+@RestControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFound(
+            UserNotFoundException ex,
+            HttpServletRequest request
+    ) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ErrorResponse.of(404, ex.getMessage(), request.getRequestURI()));
+    }
+
+    @ExceptionHandler(DuplicateUserException.class)
+    public ResponseEntity<ErrorResponse> handleDuplicateUser(
+            DuplicateUserException ex,
+            HttpServletRequest request
+    ) {
+        return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body(ErrorResponse.of(409, ex.getMessage(), request.getRequestURI()));
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ErrorResponse> handleValidation(
+            MethodArgumentNotValidException ex,
+            HttpServletRequest request
+    ) {
+        Map<String, String> errors = new LinkedHashMap<>();
+
+        ex.getBindingResult().getFieldErrors().forEach(error ->
+                errors.put(error.getField(), error.getDefaultMessage())
+        );
+
+        return ResponseEntity.badRequest()
+                .body(ErrorResponse.validation(
+                        400,
+                        "Validation failed",
+                        request.getRequestURI(),
+                        errors
+                ));
+    }
+}
+```
+
+## ปรับ Service ให้ใช้ custom exception
+
+ตัวอย่าง:
+
+```java
+public User findById(Long id) {
+    return userRepository.findById(id)
+            .orElseThrow(() -> new UserNotFoundException(id));
+}
+```
+
+กรณีข้อมูลซ้ำ:
+
+```java
+if (userRepository.existsByEmail(request.email())) {
+    throw new DuplicateUserException("Email already exists");
+}
+```
+
+## ตัวอย่าง response เมื่อ user ไม่มีอยู่
+
+```json
+{
+  "success": false,
+  "status": 404,
+  "message": "User not found with id: 99",
+  "path": "/api/v1/users/99",
+  "timestamp": "2026-06-05T15:30:00",
+  "errors": null
+}
+```
+
+## ตัวอย่าง response เมื่อ validation ไม่ผ่าน
+
+```json
+{
+  "success": false,
+  "status": 400,
+  "message": "Validation failed",
+  "path": "/api/v1/users",
+  "timestamp": "2026-06-05T15:30:00",
+  "errors": {
+    "username": "Username is required",
+    "email": "Email format is invalid",
+    "password": "Password must be at least 8 characters"
+  }
+}
+```
+
+## ควรจับ Exception.class ไหม
+
+ในช่วงเริ่มเรียนยังไม่จำเป็นต้องจับทุก exception
+
+ถ้าจับ `Exception.class` เราอาจซ่อน bug จริงของระบบจน debug ยาก ในงานจริงอาจมี handler กลางสำหรับ unexpected error แต่ต้อง log รายละเอียดไว้ และไม่ส่ง stack trace ให้ client
+
+## แบบฝึกหัดท้ายบท
+
+1. สร้าง `UserNotFoundException`
+2. สร้าง `DuplicateUserException`
+3. สร้าง `ErrorResponse`
+4. สร้าง `GlobalExceptionHandler`
+5. ทดสอบ `GET /api/v1/users/999`
+6. ทดสอบสร้าง user ด้วย email ซ้ำ
+7. ทดสอบ validation error
+

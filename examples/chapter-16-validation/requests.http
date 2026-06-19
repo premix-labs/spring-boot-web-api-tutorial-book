@@ -1,0 +1,29 @@
+### Validation should fail
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "",
+  "email": "wrong",
+  "password": "123"
+}
+
+### Valid create user request
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "john",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Invalid update request
+PUT http://localhost:8080/api/v1/users/1
+Content-Type: application/json
+
+{
+  "username": "jo",
+  "email": "wrong"
+}
+

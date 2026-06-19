@@ -1,0 +1,22 @@
+### Change role and create audit log
+PATCH http://localhost:8080/api/v1/admin/users/2/role
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "role": "ADMIN"
+}
+
+### Change status and create audit log
+PATCH http://localhost:8080/api/v1/admin/users/2/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "INACTIVE"
+}
+
+### View audit logs
+GET http://localhost:8080/api/v1/admin/audit-logs?page=0&size=20
+Authorization: Bearer {{adminToken}}
+

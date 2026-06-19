@@ -1,0 +1,84 @@
+@baseUrl = http://localhost:8080
+@token =
+@registeredUserId = 2
+
+### Health check
+GET {{baseUrl}}/actuator/health
+
+### OpenAPI JSON
+GET {{baseUrl}}/v3/api-docs
+
+### Register a normal user
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "john{{$timestamp}}",
+  "email": "john{{$timestamp}}@example.com",
+  "password": "password123"
+}
+
+### Login as the bootstrap admin
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@example.com",
+  "password": "admin12345"
+}
+
+### Get current user
+GET {{baseUrl}}/api/v1/auth/me
+Authorization: Bearer {{token}}
+
+### List users as admin
+GET {{baseUrl}}/api/v1/admin/users?page=0&size=10
+Authorization: Bearer {{token}}
+
+### Get one user as admin
+GET {{baseUrl}}/api/v1/admin/users/{{registeredUserId}}
+Authorization: Bearer {{token}}
+
+### Change user role
+PATCH {{baseUrl}}/api/v1/admin/users/{{registeredUserId}}/role
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "role": "ADMIN"
+}
+
+### Change user status to inactive
+PATCH {{baseUrl}}/api/v1/admin/users/{{registeredUserId}}/status
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "INACTIVE"
+}
+
+### Change user status back to active
+PATCH {{baseUrl}}/api/v1/admin/users/{{registeredUserId}}/status
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "status": "ACTIVE"
+}
+
+### View audit logs
+GET {{baseUrl}}/api/v1/admin/audit-logs?page=0&size=10
+Authorization: Bearer {{token}}
+
+### Negative case: invalid email
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "bademail",
+  "email": "wrong",
+  "password": "password123"
+}
+
+### Negative case: admin endpoint without token
+GET {{baseUrl}}/api/v1/admin/users

@@ -1,0 +1,133 @@
+---
+title: 01 - Spring Boot คืออะไร
+description: เข้าใจ Spring Boot, backend และ API ในภาพใหญ่
+---
+
+## เป้าหมายของบท
+
+บทนี้จะพาเข้าใจภาพรวมก่อนเขียนโค้ดจริงว่า Spring Boot คืออะไร ทำไม backend developer ใช้ Spring Boot และ request หนึ่งครั้งไหลผ่านระบบแบบไหน
+
+หลังจบบทนี้ ผู้อ่านควรอธิบาย flow นี้ได้:
+
+```text
+Client -> HTTP Request -> Controller -> Service -> Repository -> Database -> HTTP Response
+```
+
+## Backend คืออะไร
+
+Backend คือส่วนของระบบที่ทำงานอยู่ฝั่ง server หน้าที่หลักคือรับ request จาก client ประมวลผล business logic ติดต่อ database แล้วส่ง response กลับไป
+
+ตัวอย่าง client:
+
+- Browser
+- Mobile app
+- Frontend web app
+- Postman
+- Service อื่นที่เรียก API ของเรา
+
+ตัวอย่างสิ่งที่ backend ทำ:
+
+- ตรวจ username/password ตอน login
+- บันทึก user ใหม่ตอน register
+- ตรวจว่า token ถูกต้องหรือไม่
+- ดึงรายชื่อผู้ใช้จาก database
+- ตรวจว่า user คนนี้มี role `ADMIN` หรือไม่
+
+## API คืออะไร
+
+API คือช่องทางให้ client คุยกับ backend ในหนังสือเล่มนี้เราจะเน้น REST API ซึ่งเรียกผ่าน HTTP
+
+ตัวอย่าง endpoint:
+
+```text
+GET  /api/v1/users
+POST /api/v1/auth/login
+GET  /api/v1/admin/users
+```
+
+endpoint หนึ่งตัวควรบอกชัดเจนว่า client ต้องการทำอะไร เช่น `/auth/login` ใช้ login และ `/admin/users` ใช้สำหรับ admin จัดการผู้ใช้
+
+## Spring Boot ช่วยอะไร
+
+ถ้าเขียน Java backend แบบไม่ใช้ framework เราต้องเตรียมเองหลายเรื่อง เช่น web server, routing, JSON parser, dependency management และ database connection
+
+Spring Boot ช่วยลดงาน setup เหล่านี้:
+
+- เปิด embedded server ให้ เช่น Tomcat
+- map URL เข้ากับ controller method
+- แปลง JSON เป็น Java object
+- แปลง Java object กลับเป็น JSON
+- เชื่อมต่อ database ผ่าน Spring Data JPA
+- จัดการ dependency และ configuration ให้เป็นระบบ
+
+Spring Boot ไม่ได้แทน Java แต่เป็น framework ที่ทำให้ Java เหมาะกับการสร้าง backend application มากขึ้น
+
+## Request หนึ่งครั้งเกิดอะไรขึ้น
+
+สมมติ client เรียก:
+
+```text
+POST /api/v1/auth/login
+```
+
+พร้อม JSON:
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+ลำดับการทำงานโดยย่อ:
+
+1. Spring Boot รับ HTTP request
+2. Spring หา controller ที่ตรงกับ path `/api/v1/auth/login`
+3. Controller รับ JSON แล้วแปลงเป็น DTO
+4. Controller เรียก Service
+5. Service ตรวจ email/password
+6. Service เรียก Repository เพื่ออ่านข้อมูล user จาก database
+7. ถ้าถูกต้อง Service สร้าง JWT token
+8. Controller ส่ง response กลับไปให้ client
+
+## โครงสร้างที่หนังสือเล่มนี้ใช้
+
+เราจะใช้ layered architecture:
+
+```text
+Controller -> Service -> Repository -> Database
+```
+
+หน้าที่แต่ละชั้น:
+
+- Controller: รับ request และส่ง response
+- Service: เก็บ business logic
+- Repository: ติดต่อ database
+- Model/Entity: แทน table ใน database
+- DTO: เป็นรูปแบบ request/response ของ API
+
+## สิ่งที่ควรจำ
+
+- Spring Boot ช่วยให้เริ่ม backend Java ได้เร็ว
+- REST API คือ contract ระหว่าง client กับ server
+- Controller ไม่ควรใส่ business logic หนัก ๆ
+- Service คือหัวใจของ logic
+- Repository คือทางออกไปหา database
+
+## Checkpoint
+
+ก่อนอ่านบทถัดไป ลองตอบคำถามเหล่านี้:
+
+1. Backend ต่างจาก frontend อย่างไร
+2. API คืออะไร
+3. Controller มีหน้าที่อะไร
+4. Service มีหน้าที่อะไร
+5. ถ้า frontend กดปุ่ม Login backend ต้องทำอะไรบ้าง
+
+## แบบฝึกหัดท้ายบท
+
+วาด diagram แบบง่ายของระบบ login โดยใช้กล่อง 4 กล่อง:
+
+```text
+Frontend -> AuthController -> AuthService -> UserRepository
+```

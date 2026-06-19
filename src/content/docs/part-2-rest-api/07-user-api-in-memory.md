@@ -1,0 +1,187 @@
+---
+title: 07 - User API แบบไม่ใช้ฐานข้อมูล
+description: ใช้ List จำลองข้อมูลเพื่อเข้าใจ flow ของ API
+---
+
+## เป้าหมายของบท
+
+บทนี้จะสร้าง User API แบบง่ายโดยใช้ `List<User>` เก็บข้อมูลใน memory ก่อน จุดประสงค์คือให้เข้าใจ controller, path variable, request body และ response ก่อนเข้าสู่ database จริง
+
+หลังจบบทนี้จะได้ endpoint:
+
+```text
+GET    /api/v1/users
+GET    /api/v1/users/{id}
+POST   /api/v1/users
+DELETE /api/v1/users/{id}
+```
+
+## ทำไมต้องเริ่มแบบไม่ใช้ database
+
+มือใหม่มักเจอปัญหาหลายอย่างพร้อมกัน เช่น controller ไม่ทำงาน, JSON ไม่ถูก, database ต่อไม่ได้, table ไม่ถูกสร้าง ถ้าเริ่มทุกอย่างพร้อมกันจะ debug ยาก
+
+บทนี้จึงตัด database ออกก่อน แล้วโฟกัสที่ REST API flow:
+
+```text
+Postman -> UserController -> List<User> -> Response
+```
+
+## สร้าง User model
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/model/User.java
+```
+
+```java
+package com.example.secureadmin.model;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class User {
+    private Long id;
+    private String username;
+    private String email;
+}
+```
+
+ตอนนี้ `User` ยังไม่ใช่ Entity เพราะยังไม่ใช้ JPA และ database
+
+## สร้าง UserController
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/controller/UserController.java
+```
+
+```java
+package com.example.secureadmin.controller;
+
+import com.example.secureadmin.model.User;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/v1/users")
+public class UserController {
+
+    private final List<User> users = new ArrayList<>();
+    private Long nextId = 1L;
+
+    @GetMapping
+    public List<User> getUsers() {
+        return users;
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        return users.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
+
+    @PostMapping
+    public User createUser(@RequestBody User user) {
+        user.setId(nextId++);
+        users.add(user);
+        return user;
+    }
+
+    @DeleteMapping("/{id}")
+    public String deleteUser(@PathVariable Long id) {
+        User user = getUser(id);
+        users.remove(user);
+        return "User deleted";
+    }
+}
+```
+
+## ทดสอบสร้าง user
+
+เรียก:
+
+```text
+POST http://localhost:8080/api/v1/users
+```
+
+Body:
+
+```json
+{
+  "username": "john",
+  "email": "john@example.com"
+}
+```
+
+Expected response:
+
+```json
+{
+  "id": 1,
+  "username": "john",
+  "email": "john@example.com"
+}
+```
+
+## ทดสอบอ่านรายชื่อ user
+
+```text
+GET http://localhost:8080/api/v1/users
+```
+
+Expected response:
+
+```json
+[
+  {
+    "id": 1,
+    "username": "john",
+    "email": "john@example.com"
+  }
+]
+```
+
+## ทดสอบอ่าน user ตาม id
+
+```text
+GET http://localhost:8080/api/v1/users/1
+```
+
+## ข้อจำกัดของ in-memory API
+
+โค้ดนี้ยังไม่เหมาะกับ production:
+
+- ข้อมูลหายเมื่อ restart application
+- ยังไม่มี validation
+- ยังตอบ error เป็น 500 เมื่อ user not found
+- ยังไม่ได้แยก service
+- thread-safety ยังไม่ใช่ประเด็นที่จัดการ
+
+ทั้งหมดนี้เราจะค่อย ๆ แก้ในบทถัดไปและภาคถัด ๆ ไป
+
+## Checkpoint
+
+บทนี้ถือว่าสำเร็จเมื่อ:
+
+- `POST /api/v1/users` สร้าง user ได้
+- `GET /api/v1/users` เห็น user ที่สร้าง
+- `GET /api/v1/users/1` อ่าน user id 1 ได้
+- `DELETE /api/v1/users/1` ลบ user ได้
+
+## แบบฝึกหัดท้ายบท
+
+เพิ่ม endpoint:
+
+```text
+PUT /api/v1/users/{id}
+```
+
+เพื่อแก้ไข `username` และ `email`

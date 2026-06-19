@@ -1,0 +1,39 @@
+---
+title: HTTP Status Code
+description: Status code ที่ใช้บ่อยใน REST API
+---
+- `200 OK`: request สำเร็จ
+- `201 Created`: สร้างข้อมูลสำเร็จ
+- `400 Bad Request`: request ไม่ถูกต้อง
+- `401 Unauthorized`: ยังไม่ login หรือ token ไม่ถูกต้อง
+- `403 Forbidden`: login แล้วแต่ไม่มีสิทธิ์
+- `404 Not Found`: ไม่พบข้อมูล
+- `409 Conflict`: ข้อมูลชนกัน เช่น email ซ้ำ
+- `500 Internal Server Error`: server error
+
+## ใช้กับ SecureAdmin API
+
+```text
+POST /api/v1/auth/register
+201 Created
+```
+
+```text
+POST /api/v1/auth/login
+200 OK หรือ 401 Unauthorized
+```
+
+```text
+GET /api/v1/auth/me
+200 OK หรือ 401 Unauthorized
+```
+
+```text
+GET /api/v1/admin/users
+200 OK, 401 Unauthorized หรือ 403 Forbidden
+```
+
+```text
+GET /api/v1/users/{id}
+200 OK หรือ 404 Not Found
+```

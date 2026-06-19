@@ -1,0 +1,27 @@
+### Change user role to ADMIN
+PATCH http://localhost:8080/api/v1/admin/users/2/role
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "role": "ADMIN"
+}
+
+### Disable user
+PATCH http://localhost:8080/api/v1/admin/users/2/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "INACTIVE"
+}
+
+### Enable user
+PATCH http://localhost:8080/api/v1/admin/users/2/status
+Authorization: Bearer {{adminToken}}
+Content-Type: application/json
+
+{
+  "status": "ACTIVE"
+}
+

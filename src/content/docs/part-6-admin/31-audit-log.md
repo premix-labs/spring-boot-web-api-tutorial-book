@@ -1,0 +1,341 @@
+---
+title: 31 - Audit Log เบื้องต้น
+description: บันทึก action สำคัญของ admin เพื่อใช้ตรวจสอบย้อนหลัง
+---
+
+## เป้าหมายของบท
+
+บทนี้จะเพิ่ม audit log สำหรับ action สำคัญของ admin เช่น เปลี่ยน role หรือเปลี่ยน status
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- audit log คืออะไร
+- ควรบันทึกข้อมูลอะไรบ้าง
+- ทำไม audit log ควรอยู่ใน transaction เดียวกับ action หลัก
+- เพิ่ม entity/repository/service สำหรับ audit log อย่างไร
+- สร้าง endpoint ให้ admin ดู audit log แบบ pagination ได้อย่างไร
+
+## Audit log คืออะไร
+
+Audit log คือบันทึกเหตุการณ์สำคัญของระบบ เช่น:
+
+```text
+admin@example.com changed user 5 role from USER to ADMIN
+admin@example.com changed user 8 status to INACTIVE
+```
+
+เมื่อเกิดปัญหา เช่น user ถูกปิดบัญชีผิดคน เราจะย้อนดูได้ว่า:
+
+- ใครเป็นคนทำ
+- ทำกับ user คนไหน
+- action คืออะไร
+- ค่าเดิมคืออะไร
+- ค่าใหม่คืออะไร
+- เกิดขึ้นเมื่อไร
+
+## สร้าง AuditLog entity
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/secureadmin/model/AuditLog.java
+```
+
+```java
+package com.example.secureadmin.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "audit_logs")
+@Getter
+@Setter
+@NoArgsConstructor
+public class AuditLog {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, length = 100)
+    private String action;
+
+    @Column(nullable = false)
+    private Long actorId;
+
+    @Column(nullable = false)
+    private Long targetUserId;
+
+    @Column(length = 100)
+    private String oldValue;
+
+    @Column(length = 100)
+    private String newValue;
+
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
+
+    @PrePersist
+    void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+}
+```
+
+## สร้าง AuditLogRepository
+
+```java
+package com.example.secureadmin.repository;
+
+import com.example.secureadmin.model.AuditLog;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
+}
+```
+
+## สร้าง AuditLogResponse
+
+```java
+package com.example.secureadmin.dto;
+
+import java.time.LocalDateTime;
+
+public record AuditLogResponse(
+        Long id,
+        String action,
+        Long actorId,
+        Long targetUserId,
+        String oldValue,
+        String newValue,
+        LocalDateTime createdAt
+) {
+}
+```
+
+## สร้าง AuditLogService
+
+```java
+package com.example.secureadmin.service;
+
+import com.example.secureadmin.common.PageResponse;
+import com.example.secureadmin.dto.AuditLogResponse;
+import com.example.secureadmin.model.AuditLog;
+import com.example.secureadmin.repository.AuditLogRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class AuditLogService {
+
+    private final AuditLogRepository auditLogRepository;
+
+    public void record(
+            String action,
+            Long actorId,
+            Long targetUserId,
+            String oldValue,
+            String newValue
+    ) {
+        AuditLog log = new AuditLog();
+        log.setAction(action);
+        log.setActorId(actorId);
+        log.setTargetUserId(targetUserId);
+        log.setOldValue(oldValue);
+        log.setNewValue(newValue);
+        auditLogRepository.save(log);
+    }
+
+    public PageResponse<AuditLogResponse> findAll(int page, int size) {
+        int safeSize = Math.min(size, 100);
+        return PageResponse.from(
+                auditLogRepository.findAll(
+                        PageRequest.of(page, safeSize, Sort.by("createdAt").descending())
+                ).map(this::toResponse)
+        );
+    }
+
+    private AuditLogResponse toResponse(AuditLog log) {
+        return new AuditLogResponse(
+                log.getId(),
+                log.getAction(),
+                log.getActorId(),
+                log.getTargetUserId(),
+                log.getOldValue(),
+                log.getNewValue(),
+                log.getCreatedAt()
+        );
+    }
+}
+```
+
+## ผูก audit log กับ change role/status
+
+ใน `AdminUserService` เพิ่ม `AuditLogService`:
+
+```java
+private final AuditLogService auditLogService;
+```
+
+ตอนเปลี่ยน role:
+
+```java
+User actor = findActor(actorEmail);
+User target = findUser(id);
+Role oldRole = target.getRole();
+target.setRole(request.role());
+
+auditLogService.record(
+        "CHANGE_ROLE",
+        actor.getId(),
+        target.getId(),
+        oldRole.name(),
+        request.role().name()
+);
+```
+
+ตอนเปลี่ยน status:
+
+```java
+User actor = findActor(actorEmail);
+User target = findUser(id);
+UserStatus oldStatus = target.getStatus();
+target.setStatus(request.status());
+
+auditLogService.record(
+        "CHANGE_STATUS",
+        actor.getId(),
+        target.getId(),
+        oldStatus.name(),
+        request.status().name()
+);
+```
+
+เพราะ method อยู่ใน `@Transactional` ถ้า save audit log error transaction ควร rollback ทั้ง action
+
+จากนั้นปรับ `AdminUserController` ให้ส่ง email ของ admin ปัจจุบันเข้าไปด้วย ทั้ง endpoint เปลี่ยน role และ status:
+
+```java
+@PatchMapping("/{id}/role")
+public ApiResponse<UserResponse> changeRole(
+        @PathVariable Long id,
+        @Valid @RequestBody ChangeRoleRequest request,
+        Authentication authentication
+) {
+    return ApiResponse.ok(
+            "User role changed",
+            adminUserService.changeRole(id, request, authentication.getName())
+    );
+}
+
+@PatchMapping("/{id}/status")
+public ApiResponse<UserResponse> changeStatus(
+        @PathVariable Long id,
+        @Valid @RequestBody ChangeStatusRequest request,
+        Authentication authentication
+) {
+    return ApiResponse.ok(
+            "User status changed",
+            adminUserService.changeStatus(id, request, authentication.getName())
+    );
+}
+```
+
+import ที่ต้องมี:
+
+```java
+import org.springframework.security.core.Authentication;
+```
+
+## สร้าง endpoint ดู audit log
+
+```java
+package com.example.secureadmin.controller;
+
+import com.example.secureadmin.common.ApiResponse;
+import com.example.secureadmin.common.PageResponse;
+import com.example.secureadmin.dto.AuditLogResponse;
+import com.example.secureadmin.service.AuditLogService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/v1/admin/audit-logs")
+@RequiredArgsConstructor
+public class AdminAuditLogController {
+
+    private final AuditLogService auditLogService;
+
+    @GetMapping
+    public ApiResponse<PageResponse<AuditLogResponse>> findAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size
+    ) {
+        return ApiResponse.ok("Audit logs found", auditLogService.findAll(page, size));
+    }
+}
+```
+
+## Action ที่ควรบันทึก
+
+เริ่มจาก:
+
+```text
+CHANGE_ROLE
+CHANGE_STATUS
+```
+
+ต่อไปอาจเพิ่ม:
+
+```text
+CREATE_ADMIN
+DISABLE_USER
+ENABLE_USER
+RESET_PASSWORD
+DELETE_USER
+```
+
+## ข้อควรระวัง
+
+- audit log ไม่ควรเก็บ password หรือข้อมูลลับ
+- audit log ควรถูกแก้ไขยากกว่าข้อมูลทั่วไป
+- endpoint ดู audit log ควรเป็น admin-only
+- ในระบบใหญ่ควรมี request id หรือ IP address เพิ่ม
+- retention policy ต้องชัด เช่น เก็บกี่เดือนหรือกี่ปี
+
+## Checkpoint ปิดภาค Admin System
+
+หลังจบบทนี้ ระบบควรทำได้:
+
+- แยก role `USER` และ `ADMIN`
+- lock `/api/v1/admin/**` ให้ admin เท่านั้น
+- admin ดูรายชื่อผู้ใช้พร้อม filter ได้
+- admin เปลี่ยน role/status ได้
+- บันทึก audit log ตอนเปลี่ยน role/status
+- admin ดู audit log ได้
+
+## แบบฝึกหัดท้ายบท
+
+1. สร้าง `AuditLog` entity
+2. สร้าง `AuditLogRepository`
+3. สร้าง `AuditLogService`
+4. บันทึก log ตอนเปลี่ยน role
+5. บันทึก log ตอนเปลี่ยน status
+6. สร้าง endpoint ดู audit log
+7. ทดสอบ pagination ของ audit log

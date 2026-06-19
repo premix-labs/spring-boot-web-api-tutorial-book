@@ -1,0 +1,41 @@
+### Create first user
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "john",
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+### Create second user
+POST http://localhost:8080/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "jane",
+  "email": "jane@example.com",
+  "password": "password123"
+}
+
+### Update first user
+PUT http://localhost:8080/api/v1/users/1
+Content-Type: application/json
+
+{
+  "username": "johnny",
+  "email": "johnny@example.com"
+}
+
+### Duplicate email should fail
+PUT http://localhost:8080/api/v1/users/1
+Content-Type: application/json
+
+{
+  "username": "johnny",
+  "email": "jane@example.com"
+}
+
+### List users
+GET http://localhost:8080/api/v1/users
+
