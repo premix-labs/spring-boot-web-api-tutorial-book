@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
+import { unified } from '@astrojs/markdown-remark';
 import starlight from '@astrojs/starlight';
 
 const site = process.env.SITE ?? 'http://localhost:4321';
@@ -9,6 +10,9 @@ export default defineConfig({
 	site,
 	...(base ? { base } : {}),
 	output: 'static',
+	markdown: {
+		processor: unified(),
+	},
 	integrations: [
 		starlight({
 			title: 'Spring Boot Tutorial Book',
