@@ -5,7 +5,7 @@ description: ตั้งค่า dependency, database และ datasource ใ
 
 ## เป้าหมายของบท
 
-บทนี้จะเปลี่ยน API จากการเก็บข้อมูลใน memory ไปสู่ database จริง โดยใช้ PostgreSQL เป็นฐานข้อมูลหลักของโปรเจกต์ `SecureAdmin API`
+บทนี้จะเปลี่ยน API จากการเก็บข้อมูลใน memory ไปสู่ database จริง โดยใช้ PostgreSQL เป็นฐานข้อมูลหลักของโปรเจกต์ `Backend API`
 
 หลังจบบทนี้ผู้อ่านควรทำได้:
 
@@ -86,7 +86,7 @@ src/main/resources/application.properties
 แล้วตั้งค่าดังนี้:
 
 ```properties
-spring.application.name=secure-admin-api
+spring.application.name=backend-api
 
 spring.datasource.url=${DB_URL:jdbc:postgresql://localhost:5432/secure_admin}
 spring.datasource.username=${DB_USERNAME:postgres}

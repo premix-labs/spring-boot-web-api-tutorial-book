@@ -11,7 +11,7 @@ description: Status code ที่ใช้บ่อยใน REST API
 - `409 Conflict`: ข้อมูลชนกัน เช่น email ซ้ำ
 - `500 Internal Server Error`: server error
 
-## ใช้กับ SecureAdmin API
+## ใช้กับ Backend API
 
 ```text
 POST /api/v1/auth/register

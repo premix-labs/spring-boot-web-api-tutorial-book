@@ -1,6 +1,6 @@
-package com.example.secureadmin.exception;
+package com.example.backendapi.exception;
 
-import com.example.secureadmin.common.ErrorResponse;
+import com.example.backendapi.common.ErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.LinkedHashMap;
 import java.util.Map;

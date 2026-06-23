@@ -9,6 +9,6 @@
 ให้นำไปวางที่:
 
 ```text
-src/test/java/com/example/secureadmin/service/AuthServiceTest.java
+src/test/java/com/example/backendapi/service/AuthServiceTest.java
 ```
 

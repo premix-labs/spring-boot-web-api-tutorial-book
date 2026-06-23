@@ -5,7 +5,7 @@ description: รัน Spring Boot API และ PostgreSQL ด้วย contain
 
 ## เป้าหมายของบท
 
-บทนี้จะเพิ่ม Dockerfile และ Docker Compose เพื่อรัน `SecureAdmin API` กับ PostgreSQL ใน environment ที่ทำซ้ำได้
+บทนี้จะเพิ่ม Dockerfile และ Docker Compose เพื่อรัน `Backend API` กับ PostgreSQL ใน environment ที่ทำซ้ำได้
 
 หลังจบบทนี้ผู้อ่านควรเข้าใจ:
 
@@ -47,7 +47,7 @@ ENTRYPOINT ["java", "-jar", "app.jar"]
 services:
   postgres:
     image: postgres:18
-    container_name: secure-admin-postgres
+    container_name: backend-postgres
     environment:
       POSTGRES_DB: secure_admin
       POSTGRES_USER: postgres
@@ -64,7 +64,7 @@ services:
 
   api:
     build: .
-    container_name: secure-admin-api
+    container_name: backend-api
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_URL: jdbc:postgresql://postgres:5432/secure_admin

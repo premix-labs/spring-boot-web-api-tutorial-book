@@ -45,11 +45,11 @@ Client
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/LoginRequest.java
+src/main/java/com/example/backendapi/dto/LoginRequest.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -70,11 +70,11 @@ public record LoginRequest(
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/LoginResponse.java
+src/main/java/com/example/backendapi/dto/LoginResponse.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 public record LoginResponse(
         String token,

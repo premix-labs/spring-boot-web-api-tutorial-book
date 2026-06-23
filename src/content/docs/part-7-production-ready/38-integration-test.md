@@ -38,7 +38,7 @@ spring.flyway.enabled=false
 
 app.jwt.secret=0123456789012345678901234567890123456789012345678901234567890123
 app.jwt.expiration-seconds=86400
-app.jwt.issuer=secure-admin-api-test
+app.jwt.issuer=backend-api-test
 ```
 
 ถ้าไม่ใช้ H2 สามารถใช้ Testcontainers กับ PostgreSQL ได้ ซึ่งใกล้ production กว่า แต่ซับซ้อนกว่าเล็กน้อย
@@ -52,7 +52,7 @@ testRuntimeOnly 'com.h2database:h2'
 ## สร้าง AuthControllerIntegrationTest
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

@@ -11,6 +11,6 @@
 ไฟล์ test ให้วางที่:
 
 ```text
-src/test/java/com/example/secureadmin/controller/AuthControllerIntegrationTest.java
+src/test/java/com/example/backendapi/controller/AuthControllerIntegrationTest.java
 ```
 

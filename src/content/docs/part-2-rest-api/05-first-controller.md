@@ -23,13 +23,13 @@ Controller คือ class ที่อยู่หน้าสุดของ b
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/HelloController.java
+src/main/java/com/example/backendapi/controller/HelloController.java
 ```
 
 ใส่โค้ด:
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -110,7 +110,7 @@ OK
 ตรวจว่า `HelloController` อยู่ใต้ package หลัก เช่น:
 
 ```text
-com.example.secureadmin.controller
+com.example.backendapi.controller
 ```
 
 ถ้า controller อยู่นอก package หลัก Spring อาจ scan ไม่เจอ
@@ -138,5 +138,5 @@ GET /version
 ให้ตอบกลับ:
 
 ```text
-SecureAdmin API v1
+Backend API v1
 ```

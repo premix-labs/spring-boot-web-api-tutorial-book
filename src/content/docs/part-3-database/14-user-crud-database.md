@@ -41,14 +41,14 @@ Repository ติดต่อ database
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/service/UserService.java
+src/main/java/com/example/backendapi/service/UserService.java
 ```
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.model.User;
+import com.example.backendapi.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -99,16 +99,16 @@ public class UserService {
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/UserController.java
+src/main/java/com/example/backendapi/controller/UserController.java
 ```
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.model.UserStatus;
-import com.example.secureadmin.service.UserService;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.User;
+import com.example.backendapi.model.UserStatus;
+import com.example.backendapi.service.UserService;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

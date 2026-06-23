@@ -50,11 +50,11 @@ implementation 'org.springframework.boot:spring-boot-starter-security'
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/config/SecurityBeansConfig.java
+src/main/java/com/example/backendapi/config/SecurityBeansConfig.java
 ```
 
 ```java
-package com.example.secureadmin.config;
+package com.example.backendapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

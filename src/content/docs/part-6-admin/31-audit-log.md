@@ -38,11 +38,11 @@ admin@example.com changed user 8 status to INACTIVE
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/model/AuditLog.java
+src/main/java/com/example/backendapi/model/AuditLog.java
 ```
 
 ```java
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -95,9 +95,9 @@ public class AuditLog {
 ## สร้าง AuditLogRepository
 
 ```java
-package com.example.secureadmin.repository;
+package com.example.backendapi.repository;
 
-import com.example.secureadmin.model.AuditLog;
+import com.example.backendapi.model.AuditLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
@@ -107,7 +107,7 @@ public interface AuditLogRepository extends JpaRepository<AuditLog, Long> {
 ## สร้าง AuditLogResponse
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import java.time.LocalDateTime;
 
@@ -126,12 +126,12 @@ public record AuditLogResponse(
 ## สร้าง AuditLogService
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.AuditLogResponse;
-import com.example.secureadmin.model.AuditLog;
-import com.example.secureadmin.repository.AuditLogRepository;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.AuditLogResponse;
+import com.example.backendapi.model.AuditLog;
+import com.example.backendapi.repository.AuditLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -263,12 +263,12 @@ import org.springframework.security.core.Authentication;
 ## สร้าง endpoint ดู audit log
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.AuditLogResponse;
-import com.example.secureadmin.service.AuditLogService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.AuditLogResponse;
+import com.example.backendapi.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,9 +1,9 @@
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.AuditLogResponse;
-import com.example.secureadmin.model.AuditLog;
-import com.example.secureadmin.repository.AuditLogRepository;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.AuditLogResponse;
+import com.example.backendapi.model.AuditLog;
+import com.example.backendapi.repository.AuditLogRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;

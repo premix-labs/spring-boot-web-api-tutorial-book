@@ -2,7 +2,7 @@
 title: แผนทั้งเล่ม
 description: Roadmap ของหนังสือ Spring Boot Tutorial Book
 ---
-หนังสือเล่มนี้พาผู้อ่านสร้าง backend API จากศูนย์ โดยใช้โปรเจกต์ `SecureAdmin API` เป็นตัวอย่างหลักตลอดเล่ม
+หนังสือเล่มนี้พาผู้อ่านสร้าง backend API จากศูนย์ โดยใช้โปรเจกต์ `Backend API` เป็นตัวอย่างหลักตลอดเล่ม
 
 ## เป้าหมายของหนังสือ
 
@@ -46,6 +46,6 @@ description: Roadmap ของหนังสือ Spring Boot Tutorial Book
 
 ## สถานะปัจจุบัน
 
-ตอนนี้ต้นฉบับอยู่ในสถานะ `v1.0 Complete Book Draft` แล้ว คือมีบทครบทั้งเล่ม มีบทที่ 1-40 ในระดับที่อ่านตามได้จริง มีโค้ดตัวอย่างแยกตาม chapter ตั้งแต่ controller แรกไปจนถึง production-ready มีโปรเจกต์รวมท้ายเล่ม `examples/final-secure-admin-api/` ที่รัน `test` และ `bootJar` ผ่านแล้ว และมี workflow สำหรับ deploy เว็บหนังสือขึ้น GitHub Pages
+ตอนนี้ต้นฉบับอยู่ในสถานะ `v1.0 Complete Book Draft` แล้ว คือมีบทครบทั้งเล่ม มีบทที่ 1-40 ในระดับที่อ่านตามได้จริง มีโค้ดตัวอย่างแยกตาม chapter ตั้งแต่ controller แรกไปจนถึง production-ready มีโปรเจกต์รวมท้ายเล่ม `examples/final-backend-api/` ที่รัน `test` และ `bootJar` ผ่านแล้ว และมี workflow สำหรับ deploy เว็บหนังสือขึ้น GitHub Pages
 
 ขั้นตอนถัดไปไม่ใช่การเพิ่มบทใหม่ แต่เป็นการตรวจเทียบ snippet รายบทกับ final project, เพิ่ม diagram และตรวจภาษาไทยรอบสุดท้ายก่อนเผยแพร่จริง

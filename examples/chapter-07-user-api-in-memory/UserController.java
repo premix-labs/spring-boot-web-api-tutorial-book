@@ -1,6 +1,6 @@
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.model.User;
+import com.example.backendapi.model.User;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;

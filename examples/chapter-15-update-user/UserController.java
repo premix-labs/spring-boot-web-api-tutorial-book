@@ -1,9 +1,9 @@
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.model.UserStatus;
-import com.example.secureadmin.service.UserService;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.User;
+import com.example.backendapi.model.UserStatus;
+import com.example.backendapi.service.UserService;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

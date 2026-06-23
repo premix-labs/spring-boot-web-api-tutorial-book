@@ -1,9 +1,9 @@
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.dto.CreateUserRequest;
-import com.example.secureadmin.dto.UpdateUserRequest;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.dto.CreateUserRequest;
+import com.example.backendapi.dto.UpdateUserRequest;
+import com.example.backendapi.model.User;
+import com.example.backendapi.repository.UserRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

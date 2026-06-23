@@ -51,11 +51,11 @@ implementation 'org.springframework.boot:spring-boot-starter-validation'
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/CreateUserRequest.java
+src/main/java/com/example/backendapi/dto/CreateUserRequest.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -82,11 +82,11 @@ public record CreateUserRequest(
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/UpdateUserRequest.java
+src/main/java/com/example/backendapi/dto/UpdateUserRequest.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

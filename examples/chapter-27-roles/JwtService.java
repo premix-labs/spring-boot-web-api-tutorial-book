@@ -1,7 +1,7 @@
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.config.JwtProperties;
-import com.example.secureadmin.model.User;
+import com.example.backendapi.config.JwtProperties;
+import com.example.backendapi.model.User;
 import java.time.Instant;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

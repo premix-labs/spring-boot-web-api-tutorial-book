@@ -35,11 +35,11 @@ Row: 1 แถวใน table users
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/model/Role.java
+src/main/java/com/example/backendapi/model/Role.java
 ```
 
 ```java
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 public enum Role {
     USER,
@@ -54,11 +54,11 @@ public enum Role {
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/model/UserStatus.java
+src/main/java/com/example/backendapi/model/UserStatus.java
 ```
 
 ```java
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 public enum UserStatus {
     ACTIVE,
@@ -75,11 +75,11 @@ public enum UserStatus {
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/model/User.java
+src/main/java/com/example/backendapi/model/User.java
 ```
 
 ```java
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

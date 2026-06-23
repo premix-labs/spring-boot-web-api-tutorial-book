@@ -40,7 +40,7 @@ examples/
   chapter-38-integration-test/
   chapter-39-docker-compose/
   chapter-40-build-deploy/
-  final-secure-admin-api/
+  final-backend-api/
 ```
 
 ## ตัวอย่างที่มีแล้ว
@@ -79,7 +79,7 @@ examples/
 - `chapter-38-integration-test/`: integration test ด้วย MockMvc
 - `chapter-39-docker-compose/`: Dockerfile และ Docker Compose
 - `chapter-40-build-deploy/`: build commands และ production checklist
-- `final-secure-admin-api/`: โปรเจกต์รวมสุดท้ายที่นำทุกบทมาประกอบเป็น API เดียว พร้อม Postman collection
+- `final-backend-api/`: โปรเจกต์รวมสุดท้ายที่นำทุกบทมาประกอบเป็น API เดียว พร้อม Postman collection
 
 ## แนวทางเก็บตัวอย่าง
 
@@ -89,4 +89,4 @@ examples/
 - source snippet หรือไฟล์ Java ที่คัดลอกไปใช้ได้
 - expected response สำหรับ Postman, browser หรือ command line
 
-โปรเจกต์ `final-secure-admin-api/` ใช้เป็นตัวอย่างหลักสำหรับตรวจว่าแนวคิดทั้งเล่มประกอบกันเป็นระบบจริงได้
+โปรเจกต์ `final-backend-api/` ใช้เป็นตัวอย่างหลักสำหรับตรวจว่าแนวคิดทั้งเล่มประกอบกันเป็นระบบจริงได้

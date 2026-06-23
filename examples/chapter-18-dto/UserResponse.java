@@ -1,7 +1,7 @@
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.UserStatus;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.UserStatus;
 import java.time.LocalDateTime;
 
 public record UserResponse(

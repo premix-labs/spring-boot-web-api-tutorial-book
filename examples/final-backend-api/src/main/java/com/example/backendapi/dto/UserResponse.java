@@ -1,0 +1,29 @@
+package com.example.backendapi.dto;
+
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.User;
+import com.example.backendapi.model.UserStatus;
+import java.time.LocalDateTime;
+
+public record UserResponse(
+        Long id,
+        String username,
+        String email,
+        Role role,
+        UserStatus status,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+) {
+
+    public static UserResponse from(User user) {
+        return new UserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getRole(),
+                user.getStatus(),
+                user.getCreatedAt(),
+                user.getUpdatedAt()
+        );
+    }
+}

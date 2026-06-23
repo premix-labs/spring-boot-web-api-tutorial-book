@@ -6,5 +6,5 @@ $env:DB_USERNAME = "postgres"
 $env:DB_PASSWORD = "admin123"
 $env:JWT_SECRET = "0123456789012345678901234567890123456789012345678901234567890123"
 
-java -jar build/libs/secure-admin-api-0.0.1-SNAPSHOT.jar
+java -jar build/libs/backend-api-0.0.1-SNAPSHOT.jar
 

@@ -1,14 +1,14 @@
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.ChangeRoleRequest;
-import com.example.secureadmin.dto.ChangeStatusRequest;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.exception.UserNotFoundException;
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.model.UserStatus;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.ChangeRoleRequest;
+import com.example.backendapi.dto.ChangeStatusRequest;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.exception.UserNotFoundException;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.User;
+import com.example.backendapi.model.UserStatus;
+import com.example.backendapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

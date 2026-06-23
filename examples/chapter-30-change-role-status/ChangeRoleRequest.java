@@ -1,6 +1,6 @@
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
-import com.example.secureadmin.model.Role;
+import com.example.backendapi.model.Role;
 import jakarta.validation.constraints.NotNull;
 
 public record ChangeRoleRequest(

@@ -105,13 +105,13 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/AdminController.java
+src/main/java/com/example/backendapi/controller/AdminController.java
 ```
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
+import com.example.backendapi.common.ApiResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

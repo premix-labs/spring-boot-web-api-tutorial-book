@@ -5,7 +5,7 @@
 ## ไฟล์ที่ต้องสร้างใน Spring Boot project
 
 ```text
-src/main/java/com/example/secureadmin/controller/HelloController.java
+src/main/java/com/example/backendapi/controller/HelloController.java
 ```
 
 ## Endpoint ที่ได้
@@ -37,5 +37,5 @@ http://localhost:8080/version
 ```text
 GET /hello   -> Hello Spring Boot
 GET /health  -> OK
-GET /version -> SecureAdmin API v1
+GET /version -> Backend API v1
 ```

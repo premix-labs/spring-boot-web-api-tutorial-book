@@ -67,8 +67,8 @@ Page<User> searchForAdmin(
 import:
 
 ```java
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.UserStatus;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.UserStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
@@ -79,18 +79,18 @@ import org.springframework.data.jpa.repository.Query;
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/service/AdminUserService.java
+src/main/java/com/example/backendapi/service/AdminUserService.java
 ```
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.model.UserStatus;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.User;
+import com.example.backendapi.model.UserStatus;
+import com.example.backendapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -149,18 +149,18 @@ public class AdminUserService {
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/AdminUserController.java
+src/main/java/com/example/backendapi/controller/AdminUserController.java
 ```
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.UserStatus;
-import com.example.secureadmin.service.AdminUserService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.UserStatus;
+import com.example.backendapi.service.AdminUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

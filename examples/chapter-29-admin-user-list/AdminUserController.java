@@ -1,11 +1,11 @@
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.UserStatus;
-import com.example.secureadmin.service.AdminUserService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.UserStatus;
+import com.example.backendapi.service.AdminUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

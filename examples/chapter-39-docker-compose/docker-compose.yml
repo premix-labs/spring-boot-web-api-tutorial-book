@@ -1,7 +1,7 @@
 services:
   postgres:
     image: postgres:18
-    container_name: secure-admin-postgres
+    container_name: backend-postgres
     environment:
       POSTGRES_DB: secure_admin
       POSTGRES_USER: postgres
@@ -18,7 +18,7 @@ services:
 
   api:
     build: .
-    container_name: secure-admin-api
+    container_name: backend-api
     environment:
       SPRING_PROFILES_ACTIVE: prod
       DB_URL: jdbc:postgresql://postgres:5432/secure_admin

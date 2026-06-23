@@ -1,9 +1,9 @@
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.common.PageResponse;
-import com.example.secureadmin.dto.AuditLogResponse;
-import com.example.secureadmin.service.AuditLogService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.common.PageResponse;
+import com.example.backendapi.dto.AuditLogResponse;
+import com.example.backendapi.service.AuditLogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

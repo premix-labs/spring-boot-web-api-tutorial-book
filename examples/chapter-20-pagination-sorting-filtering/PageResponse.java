@@ -1,4 +1,4 @@
-package com.example.secureadmin.common;
+package com.example.backendapi.common;
 
 import java.util.List;
 import org.springframework.data.domain.Page;

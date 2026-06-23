@@ -1,4 +1,4 @@
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

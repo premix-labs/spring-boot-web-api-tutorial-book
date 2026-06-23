@@ -58,11 +58,11 @@ GET /api/v1/users?page=0&size=10&sortBy=username&direction=asc&keyword=jo
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/common/PageResponse.java
+src/main/java/com/example/backendapi/common/PageResponse.java
 ```
 
 ```java
-package com.example.secureadmin.common;
+package com.example.backendapi.common;
 
 import java.util.List;
 import org.springframework.data.domain.Page;

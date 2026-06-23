@@ -31,11 +31,11 @@ Postman -> UserController -> List<User> -> Response
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/model/User.java
+src/main/java/com/example/backendapi/model/User.java
 ```
 
 ```java
-package com.example.secureadmin.model;
+package com.example.backendapi.model;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -56,13 +56,13 @@ public class User {
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/UserController.java
+src/main/java/com/example/backendapi/controller/UserController.java
 ```
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.model.User;
+import com.example.backendapi.model.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;

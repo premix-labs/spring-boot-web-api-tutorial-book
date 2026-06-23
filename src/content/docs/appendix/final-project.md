@@ -1,13 +1,13 @@
 ---
 title: Final Project
-description: วิธีเปิดดูและรันโปรเจกต์ final-secure-admin-api
+description: วิธีเปิดดูและรันโปรเจกต์ final-backend-api
 ---
-โปรเจกต์ `final-secure-admin-api` คือโปรเจกต์รวมท้ายเล่มที่นำเนื้อหาจากบทต่าง ๆ มาประกอบเป็นระบบเดียว
+โปรเจกต์ `final-backend-api` คือโปรเจกต์รวมท้ายเล่มที่นำเนื้อหาจากบทต่าง ๆ มาประกอบเป็นระบบเดียว
 
 ตำแหน่งไฟล์:
 
 ```text
-examples/final-secure-admin-api/
+examples/final-backend-api/
 ```
 
 ## สิ่งที่อยู่ในโปรเจกต์นี้
@@ -30,21 +30,21 @@ examples/final-secure-admin-api/
 เข้าไปที่โฟลเดอร์ final project แล้วรัน Gradle wrapper ที่เตรียมไว้:
 
 ```powershell
-cd examples/final-secure-admin-api
+cd examples/final-backend-api
 .\gradlew.bat test
 ```
 
 ## คำสั่ง build jar
 
 ```powershell
-cd examples/final-secure-admin-api
+cd examples/final-backend-api
 .\gradlew.bat bootJar
 ```
 
 ไฟล์ jar จะถูกสร้างที่:
 
 ```text
-examples/final-secure-admin-api/build/libs/final-secure-admin-api-1.0.0.jar
+examples/final-backend-api/build/libs/final-backend-api-1.0.0.jar
 ```
 
 ## การทดสอบ API
@@ -52,14 +52,14 @@ examples/final-secure-admin-api/build/libs/final-secure-admin-api-1.0.0.jar
 ใช้ไฟล์นี้เปิดใน IntelliJ HTTP Client ได้:
 
 ```text
-examples/final-secure-admin-api/requests.http
+examples/final-backend-api/requests.http
 ```
 
 หรือ import Postman collection ได้จาก:
 
 ```text
-examples/final-secure-admin-api/postman/secure-admin-api.postman_collection.json
-examples/final-secure-admin-api/postman/secure-admin-local.postman_environment.json
+examples/final-backend-api/postman/backend-api.postman_collection.json
+examples/final-backend-api/postman/backend-api-local.postman_environment.json
 ```
 
 endpoint สำคัญ:

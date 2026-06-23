@@ -1,4 +1,4 @@
-package com.example.secureadmin.exception;
+package com.example.backendapi.exception;
 
 public class UserNotFoundException extends RuntimeException {
 

@@ -2,22 +2,22 @@
 title: Postman Collection
 description: วิธี import และใช้ Postman collection สำหรับทดสอบ final project
 ---
-หนังสือเล่มนี้มี Postman collection สำหรับโปรเจกต์ `final-secure-admin-api` แล้ว
+หนังสือเล่มนี้มี Postman collection สำหรับโปรเจกต์ `final-backend-api` แล้ว
 
 ไฟล์อยู่ที่:
 
 ```text
-examples/final-secure-admin-api/postman/secure-admin-api.postman_collection.json
-examples/final-secure-admin-api/postman/secure-admin-local.postman_environment.json
+examples/final-backend-api/postman/backend-api.postman_collection.json
+examples/final-backend-api/postman/backend-api-local.postman_environment.json
 ```
 
 ## วิธี import เข้า Postman
 
 1. เปิด Postman
 2. กด `Import`
-3. เลือกไฟล์ `secure-admin-api.postman_collection.json`
-4. import อีกครั้งด้วยไฟล์ `secure-admin-local.postman_environment.json`
-5. เลือก environment ชื่อ `SecureAdmin Local`
+3. เลือกไฟล์ `backend-api.postman_collection.json`
+4. import อีกครั้งด้วยไฟล์ `backend-api-local.postman_environment.json`
+5. เลือก environment ชื่อ `Backend API Local`
 
 ## ตัวแปรใน environment
 
@@ -60,7 +60,7 @@ collection มีตัวอย่าง request ที่ควร fail ด้
 
 ```powershell
 $env:SPRING_PROFILES_ACTIVE="dev"
-cd examples/final-secure-admin-api
+cd examples/final-backend-api
 .\gradlew.bat bootRun
 ```
 

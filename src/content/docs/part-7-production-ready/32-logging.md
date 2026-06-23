@@ -32,7 +32,7 @@ Spring Boot ใช้ logging system มาให้แล้ว เราจึ
 ตัวอย่างใน `AuthService`:
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -126,14 +126,14 @@ log.info("JWT token={}", token);
 ใน `application-dev.properties`:
 
 ```properties
-logging.level.com.example.secureadmin=DEBUG
+logging.level.com.example.backendapi=DEBUG
 logging.level.org.springframework.security=INFO
 ```
 
 ใน `application-prod.properties`:
 
 ```properties
-logging.level.com.example.secureadmin=INFO
+logging.level.com.example.backendapi=INFO
 logging.level.org.springframework.security=WARN
 ```
 

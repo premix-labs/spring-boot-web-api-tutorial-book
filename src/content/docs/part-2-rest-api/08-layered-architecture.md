@@ -31,13 +31,13 @@ Postman -> UserController -> UserService -> List<User>
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/service/UserService.java
+src/main/java/com/example/backendapi/service/UserService.java
 ```
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.model.User;
+import com.example.backendapi.model.User;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,10 +78,10 @@ public class UserService {
 ## ปรับ UserController
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.service.UserService;
+import com.example.backendapi.model.User;
+import com.example.backendapi.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

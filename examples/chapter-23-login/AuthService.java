@@ -1,12 +1,12 @@
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.dto.LoginRequest;
-import com.example.secureadmin.dto.LoginResponse;
-import com.example.secureadmin.dto.RegisterRequest;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.exception.DuplicateUserException;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.dto.LoginRequest;
+import com.example.backendapi.dto.LoginResponse;
+import com.example.backendapi.dto.RegisterRequest;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.exception.DuplicateUserException;
+import com.example.backendapi.model.User;
+import com.example.backendapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,8 +1,8 @@
-package com.example.secureadmin.repository;
+package com.example.backendapi.repository;
 
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.model.UserStatus;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.User;
+import com.example.backendapi.model.UserStatus;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

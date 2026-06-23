@@ -50,22 +50,22 @@ testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 สร้างไฟล์:
 
 ```text
-src/test/java/com/example/secureadmin/service/AuthServiceTest.java
+src/test/java/com/example/backendapi/service/AuthServiceTest.java
 ```
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.example.secureadmin.dto.LoginRequest;
-import com.example.secureadmin.dto.RegisterRequest;
-import com.example.secureadmin.exception.DuplicateUserException;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.dto.LoginRequest;
+import com.example.backendapi.dto.RegisterRequest;
+import com.example.backendapi.exception.DuplicateUserException;
+import com.example.backendapi.model.User;
+import com.example.backendapi.repository.UserRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

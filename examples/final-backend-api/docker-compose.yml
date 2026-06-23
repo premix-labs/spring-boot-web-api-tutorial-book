@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:18
+    container_name: backend-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-secure_admin}
+      POSTGRES_USER: ${POSTGRES_USER:-secure_admin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secure_admin}
+    ports:
+      - "5432:5432"
+    volumes:
+      - secure_admin_pgdata:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  api:
+    build: .
+    container_name: backend-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-secure_admin}
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-secure_admin}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-secure_admin}
+      JWT_SECRET: ${JWT_SECRET:-replace-this-with-a-long-random-secret-at-least-32-characters}
+      BOOTSTRAP_ADMIN_ENABLED: ${BOOTSTRAP_ADMIN_ENABLED:-true}
+      BOOTSTRAP_ADMIN_USERNAME: ${BOOTSTRAP_ADMIN_USERNAME:-admin}
+      BOOTSTRAP_ADMIN_EMAIL: ${BOOTSTRAP_ADMIN_EMAIL:-admin@example.com}
+      BOOTSTRAP_ADMIN_PASSWORD: ${BOOTSTRAP_ADMIN_PASSWORD:-admin12345}
+    ports:
+      - "8080:8080"
+
+volumes:
+  secure_admin_pgdata:

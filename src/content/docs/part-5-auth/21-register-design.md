@@ -67,11 +67,11 @@ Client
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/RegisterRequest.java
+src/main/java/com/example/backendapi/dto/RegisterRequest.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -98,16 +98,16 @@ public record RegisterRequest(
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/AuthController.java
+src/main/java/com/example/backendapi/controller/AuthController.java
 ```
 
 ```java
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.dto.RegisterRequest;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.service.AuthService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.dto.RegisterRequest;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -136,17 +136,17 @@ public class AuthController {
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/service/AuthService.java
+src/main/java/com/example/backendapi/service/AuthService.java
 ```
 
 ```java
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.dto.RegisterRequest;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.exception.DuplicateUserException;
-import com.example.secureadmin.model.User;
-import com.example.secureadmin.repository.UserRepository;
+import com.example.backendapi.dto.RegisterRequest;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.exception.DuplicateUserException;
+import com.example.backendapi.model.User;
+import com.example.backendapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

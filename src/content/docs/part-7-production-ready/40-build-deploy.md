@@ -5,7 +5,7 @@ description: build jar, ตรวจ checklist และเตรียม deplo
 
 ## เป้าหมายของบท
 
-บทสุดท้ายจะสรุปขั้นตอน build และเตรียม deploy โปรเจกต์ `SecureAdmin API`
+บทสุดท้ายจะสรุปขั้นตอน build และเตรียม deploy โปรเจกต์ `Backend API`
 
 หลังจบบทนี้ผู้อ่านควรเข้าใจ:
 
@@ -38,7 +38,7 @@ build/libs/
 ตัวอย่าง:
 
 ```text
-secure-admin-api-0.0.1-SNAPSHOT.jar
+backend-api-0.0.1-SNAPSHOT.jar
 ```
 
 ## Run jar
@@ -52,7 +52,7 @@ $env:DB_USERNAME="postgres"
 $env:DB_PASSWORD="admin123"
 $env:JWT_SECRET="0123456789012345678901234567890123456789012345678901234567890123"
 
-java -jar build/libs/secure-admin-api-0.0.1-SNAPSHOT.jar
+java -jar build/libs/backend-api-0.0.1-SNAPSHOT.jar
 ```
 
 ถ้า deploy ด้วย platform เช่น Render, Railway, Fly.io, AWS, Azure หรือ GCP ให้ตั้งค่า environment variables ใน dashboard ของ platform นั้น

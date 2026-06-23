@@ -53,11 +53,11 @@ http://localhost:8080/v3/api-docs
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/config/OpenApiConfig.java
+src/main/java/com/example/backendapi/config/OpenApiConfig.java
 ```
 
 ```java
-package com.example.secureadmin.config;
+package com.example.backendapi.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -76,9 +76,9 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("SecureAdmin API")
+                        .title("Backend API")
                         .version("1.0.0")
-                        .description("Spring Boot SecureAdmin API"))
+                        .description("Spring Boot Backend API"))
                 .addSecurityItem(new SecurityRequirement().addList(schemeName))
                 .components(new Components()
                         .addSecuritySchemes(schemeName, new SecurityScheme()

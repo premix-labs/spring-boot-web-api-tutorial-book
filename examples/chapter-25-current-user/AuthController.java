@@ -1,11 +1,11 @@
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.dto.LoginRequest;
-import com.example.secureadmin.dto.LoginResponse;
-import com.example.secureadmin.dto.RegisterRequest;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.service.AuthService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.dto.LoginRequest;
+import com.example.backendapi.dto.LoginResponse;
+import com.example.backendapi.dto.RegisterRequest;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.service.AuthService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

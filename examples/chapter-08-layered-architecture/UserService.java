@@ -1,6 +1,6 @@
-package com.example.secureadmin.service;
+package com.example.backendapi.service;
 
-import com.example.secureadmin.model.User;
+import com.example.backendapi.model.User;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

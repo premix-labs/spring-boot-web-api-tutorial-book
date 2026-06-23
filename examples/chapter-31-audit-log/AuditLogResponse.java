@@ -1,4 +1,4 @@
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import java.time.LocalDateTime;
 

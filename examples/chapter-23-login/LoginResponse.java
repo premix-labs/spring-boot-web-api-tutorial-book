@@ -1,4 +1,4 @@
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 public record LoginResponse(
         String token,

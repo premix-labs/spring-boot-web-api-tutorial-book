@@ -1,4 +1,4 @@
-package com.example.secureadmin.config;
+package com.example.backendapi.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

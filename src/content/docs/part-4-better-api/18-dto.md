@@ -48,7 +48,7 @@ UserResponse
 ## CreateUserRequest
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -73,7 +73,7 @@ public record CreateUserRequest(
 ## UpdateUserRequest
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -94,10 +94,10 @@ public record UpdateUserRequest(
 ## UserResponse
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
-import com.example.secureadmin.model.Role;
-import com.example.secureadmin.model.UserStatus;
+import com.example.backendapi.model.Role;
+import com.example.backendapi.model.UserStatus;
 import java.time.LocalDateTime;
 
 public record UserResponse(

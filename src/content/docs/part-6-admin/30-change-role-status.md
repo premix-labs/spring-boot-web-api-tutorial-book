@@ -25,13 +25,13 @@ PATCH /api/v1/admin/users/{id}/status
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/ChangeRoleRequest.java
+src/main/java/com/example/backendapi/dto/ChangeRoleRequest.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
-import com.example.secureadmin.model.Role;
+import com.example.backendapi.model.Role;
 import jakarta.validation.constraints.NotNull;
 
 public record ChangeRoleRequest(
@@ -44,13 +44,13 @@ public record ChangeRoleRequest(
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/dto/ChangeStatusRequest.java
+src/main/java/com/example/backendapi/dto/ChangeStatusRequest.java
 ```
 
 ```java
-package com.example.secureadmin.dto;
+package com.example.backendapi.dto;
 
-import com.example.secureadmin.model.UserStatus;
+import com.example.backendapi.model.UserStatus;
 import jakarta.validation.constraints.NotNull;
 
 public record ChangeStatusRequest(

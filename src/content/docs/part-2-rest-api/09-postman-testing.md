@@ -12,7 +12,7 @@ description: ใช้ Postman ยิง request และตรวจ response
 ใน Postman ให้สร้าง collection ชื่อ:
 
 ```text
-SecureAdmin API
+Backend API
 ```
 
 จากนั้นเพิ่ม folder:
@@ -27,7 +27,7 @@ SecureAdmin API
 สร้าง environment ชื่อ:
 
 ```text
-SecureAdmin Local
+Backend API Local
 ```
 
 เพิ่ม variable:

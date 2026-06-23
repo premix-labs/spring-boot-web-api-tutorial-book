@@ -11,7 +11,7 @@ Validated after the earlier report:
 - Chapters 27-31: compiled and ran admin user list, change role/status, and audit log creation. Passed.
 - Chapters 32-40: checked production-ready material against the final project, then ran final project tests/build. Passed.
 - Book site build: `npm run build` passed.
-- Final project build: `examples/final-secure-admin-api/gradlew.bat clean test bootJar` passed.
+- Final project build: `examples/final-backend-api/gradlew.bat clean test bootJar` passed.
 - Docker Compose smoke test was completed after Docker Desktop was started. The final project now runs with `postgres:18`.
 
 Issues found and fixed in this validation pass:
@@ -90,7 +90,7 @@ Failed to determine a suitable driver class
 ```text
 GET /hello   -> Hello Spring Boot
 GET /health  -> OK
-GET /version -> SecureAdmin API v1
+GET /version -> Backend API v1
 ```
 
 ข้อสังเกต:
@@ -192,7 +192,7 @@ response หลัง create:
 ตอน validation ใช้ Gradle wrapper จาก validation project รัน:
 
 ```powershell
-.\gradlew.bat -p "D:\code\IDE\Visual Studio Code\spring-boot-tutorial-book\examples\final-secure-admin-api" test bootJar
+.\gradlew.bat -p "D:\code\IDE\Visual Studio Code\spring-boot-tutorial-book\examples\final-backend-api" test bootJar
 ```
 
 ผล:
@@ -255,7 +255,7 @@ PostgreSQL Driver
 
 ### 4. Final project ไม่มี Gradle wrapper ของตัวเอง
 
-สถานะ: แก้แล้ว โดยเพิ่ม Gradle wrapper ให้ `examples/final-secure-admin-api/`
+สถานะ: แก้แล้ว โดยเพิ่ม Gradle wrapper ให้ `examples/final-backend-api/`
 
 ตอนนี้ผู้อ่านสามารถเข้าโฟลเดอร์ final project แล้วรัน:
 

@@ -5,7 +5,7 @@ description: สร้าง Spring Boot project ด้วย Spring Initializr
 
 ## เป้าหมายของบท
 
-บทนี้จะสร้าง Spring Boot project แรกชื่อ `secure-admin-api` แล้วรันให้ application เริ่มทำงานสำเร็จ
+บทนี้จะสร้าง Spring Boot project แรกชื่อ `backend-api` แล้วรันให้ application เริ่มทำงานสำเร็จ
 
 ## สร้าง project ด้วย Spring Initializr
 
@@ -16,9 +16,9 @@ Project: Gradle
 Language: Java
 Spring Boot: 4.x
 Group: com.example
-Artifact: secure-admin-api
-Name: secure-admin-api
-Package name: com.example.secureadmin
+Artifact: backend-api
+Name: backend-api
+Package name: com.example.backendapi
 Packaging: Jar
 Java: 25
 ```
@@ -48,7 +48,7 @@ Java: 25
 สิ่งที่ควรเห็น:
 
 ```text
-secure-admin-api/
+backend-api/
   build.gradle
   settings.gradle
   src/
@@ -64,7 +64,7 @@ secure-admin-api/
 
 `settings.gradle` เก็บชื่อ root project
 
-`DemoApplication.java` หรือ `SecureAdminApiApplication.java` คือ entry point ของ Spring Boot
+`DemoApplication.java` หรือ `BackendApiApplication.java` คือ entry point ของ Spring Boot
 
 `application.properties` ใช้เก็บ configuration เช่น application name, database URL, port
 
@@ -73,16 +73,16 @@ secure-admin-api/
 ตัวอย่าง:
 
 ```java
-package com.example.secureadmin;
+package com.example.backendapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class SecureAdminApiApplication {
+public class BackendApiApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(SecureAdminApiApplication.class, args);
+        SpringApplication.run(BackendApiApplication.class, args);
     }
 }
 ```
@@ -107,7 +107,7 @@ public class SecureAdminApiApplication {
 
 ```text
 Tomcat started on port 8080
-Started SecureAdminApiApplication
+Started BackendApiApplication
 ```
 
 ## ตั้งชื่อ application
@@ -115,7 +115,7 @@ Started SecureAdminApiApplication
 เปิด `src/main/resources/application.properties`
 
 ```properties
-spring.application.name=secure-admin-api
+spring.application.name=backend-api
 ```
 
 ## ปัญหาที่พบบ่อย

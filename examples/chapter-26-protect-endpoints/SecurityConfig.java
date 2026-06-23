@@ -1,4 +1,4 @@
-package com.example.secureadmin.config;
+package com.example.backendapi.config;
 
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import javax.crypto.SecretKey;

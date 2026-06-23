@@ -38,7 +38,7 @@ PUT /api/v1/users/{id}
 เปิดไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/service/UserService.java
+src/main/java/com/example/backendapi/service/UserService.java
 ```
 
 เพิ่ม method นี้:
@@ -87,7 +87,7 @@ method นี้ทำ 3 เรื่อง:
 เปิดไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/controller/UserController.java
+src/main/java/com/example/backendapi/controller/UserController.java
 ```
 
 เพิ่ม import:

@@ -10,8 +10,8 @@
 ให้นำไฟล์ไปวางในโปรเจกต์ Spring Boot ตาม path นี้:
 
 ```text
-src/main/java/com/example/secureadmin/service/UserService.java
-src/main/java/com/example/secureadmin/controller/UserController.java
+src/main/java/com/example/backendapi/service/UserService.java
+src/main/java/com/example/backendapi/controller/UserController.java
 ```
 
 ใช้ `User.java` จากตัวอย่างบทที่ 7 ต่อได้เลย

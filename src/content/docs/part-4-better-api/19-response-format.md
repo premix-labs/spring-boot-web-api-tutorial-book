@@ -60,11 +60,11 @@ description: ออกแบบรูปแบบ response กลางให้
 สร้างไฟล์:
 
 ```text
-src/main/java/com/example/secureadmin/common/ApiResponse.java
+src/main/java/com/example/backendapi/common/ApiResponse.java
 ```
 
 ```java
-package com.example.secureadmin.common;
+package com.example.backendapi.common;
 
 import java.time.LocalDateTime;
 

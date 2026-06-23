@@ -1,10 +1,10 @@
-package com.example.secureadmin.controller;
+package com.example.backendapi.controller;
 
-import com.example.secureadmin.common.ApiResponse;
-import com.example.secureadmin.dto.CreateUserRequest;
-import com.example.secureadmin.dto.UpdateUserRequest;
-import com.example.secureadmin.dto.UserResponse;
-import com.example.secureadmin.service.UserService;
+import com.example.backendapi.common.ApiResponse;
+import com.example.backendapi.dto.CreateUserRequest;
+import com.example.backendapi.dto.UpdateUserRequest;
+import com.example.backendapi.dto.UserResponse;
+import com.example.backendapi.service.UserService;
 import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;

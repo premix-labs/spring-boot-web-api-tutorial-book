@@ -1,6 +1,6 @@
 # Spring Boot Tutorial Book
 
-หนังสือสอน Spring Boot สำหรับมือใหม่ โดยใช้โปรเจกต์ `SecureAdmin API` เป็นแกนหลักในการเรียนรู้ตั้งแต่พื้นฐานจนถึง production-ready backend API
+หนังสือสอน Spring Boot สำหรับมือใหม่ โดยใช้โปรเจกต์ `Backend API` เป็นแกนหลักในการเรียนรู้ตั้งแต่พื้นฐานจนถึง production-ready backend API
 
 เนื้อหาหลัก:
 
@@ -23,7 +23,7 @@
 - เนื้อหาหนังสือครบ 40 บท
 - ภาคผนวกสำหรับเปิดดูเร็ว
 - โค้ดตัวอย่างรายบทใน `examples/`
-- โปรเจกต์รวมท้ายเล่มใน `examples/final-secure-admin-api/`
+- โปรเจกต์รวมท้ายเล่มใน `examples/final-backend-api/`
 - Postman collection สำหรับ final project
 - GitHub Actions workflow สำหรับ deploy ไป GitHub Pages
 

@@ -1,4 +1,4 @@
-package com.example.secureadmin.config;
+package com.example.backendapi.config;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
@@ -17,9 +17,9 @@ public class OpenApiConfig {
 
         return new OpenAPI()
                 .info(new Info()
-                        .title("SecureAdmin API")
+                        .title("Backend API")
                         .version("1.0.0")
-                        .description("Spring Boot SecureAdmin API"))
+                        .description("Spring Boot Backend API"))
                 .addSecurityItem(new SecurityRequirement().addList(schemeName))
                 .components(new Components()
                         .addSecuritySchemes(schemeName, new SecurityScheme()

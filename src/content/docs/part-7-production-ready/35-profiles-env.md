@@ -32,7 +32,7 @@ src/main/resources/
 ## application.properties
 
 ```properties
-spring.application.name=secure-admin-api
+spring.application.name=backend-api
 spring.profiles.active=${SPRING_PROFILES_ACTIVE:dev}
 
 spring.jpa.open-in-view=false
@@ -40,7 +40,7 @@ spring.flyway.enabled=true
 spring.flyway.locations=classpath:db/migration
 
 app.jwt.expiration-seconds=${JWT_EXPIRATION_SECONDS:86400}
-app.jwt.issuer=${JWT_ISSUER:secure-admin-api}
+app.jwt.issuer=${JWT_ISSUER:backend-api}
 ```
 
 ค่า default profile เป็น `dev` เพื่อให้ local รันง่าย
@@ -55,7 +55,7 @@ spring.datasource.password=${DB_PASSWORD:admin123}
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=true
 
-logging.level.com.example.secureadmin=DEBUG
+logging.level.com.example.backendapi=DEBUG
 
 app.jwt.secret=${JWT_SECRET:0123456789012345678901234567890123456789012345678901234567890123}
 ```
@@ -72,7 +72,7 @@ spring.datasource.password=${DB_PASSWORD}
 spring.jpa.hibernate.ddl-auto=validate
 spring.jpa.show-sql=false
 
-logging.level.com.example.secureadmin=INFO
+logging.level.com.example.backendapi=INFO
 logging.level.org.springframework.security=WARN
 
 app.jwt.secret=${JWT_SECRET}
@@ -86,13 +86,13 @@ PowerShell:
 
 ```powershell
 $env:SPRING_PROFILES_ACTIVE="prod"
-java -jar build/libs/secure-admin-api-0.0.1-SNAPSHOT.jar
+java -jar build/libs/backend-api-0.0.1-SNAPSHOT.jar
 ```
 
 หรือ:
 
 ```powershell
-java -jar build/libs/secure-admin-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+java -jar build/libs/backend-api-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 ```
 
 ## ค่าอะไรควรเป็น environment variable
