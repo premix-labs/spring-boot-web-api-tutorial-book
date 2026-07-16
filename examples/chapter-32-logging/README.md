@@ -11,4 +11,3 @@
 ## ข้อควรระวัง
 
 ห้าม log password, JWT token เต็มก้อน, secret หรือ database password
-

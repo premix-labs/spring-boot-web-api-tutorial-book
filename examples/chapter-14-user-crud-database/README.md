@@ -23,4 +23,3 @@
 4. ยิง request ตามลำดับจากบนลงล่าง
 
 บทนี้ยังไม่มี `PUT` endpoint ให้ไปดูเวอร์ชันที่เติม update แล้วใน `chapter-15-update-user`
-

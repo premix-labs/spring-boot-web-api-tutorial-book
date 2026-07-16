@@ -67,4 +67,3 @@ cd examples/final-backend-api
 .\gradlew.bat clean test bootJar
 docker compose config
 ```
-

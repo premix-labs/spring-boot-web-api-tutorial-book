@@ -21,4 +21,3 @@
 - `email`
 
 ยังไม่ให้แก้ `password`, `role` และ `status` เพราะ field เหล่านี้ควรมี flow เฉพาะในบทหลัง
-

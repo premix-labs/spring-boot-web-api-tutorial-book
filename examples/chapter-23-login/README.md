@@ -12,4 +12,3 @@
 - `requests.http`
 
 บทนี้ยังคืน token placeholder ก่อน บทที่ 24 จะเปลี่ยนเป็น JWT จริง
-

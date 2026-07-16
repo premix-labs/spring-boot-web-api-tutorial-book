@@ -1,5 +1,5 @@
 ---
-title: "0003 - Auth and Security Model"
+title: '0003 - Auth and Security Model'
 description: เหตุผลของแนวทาง auth และ security ในหนังสือ
 ---
 
@@ -38,4 +38,3 @@ Accepted
 
 - Spring Security มี concept เยอะ ต้องสอนทีละชั้น
 - ต้องระวังไม่ให้บทต้นโดน security filter ขวางก่อนถึงบท auth
-

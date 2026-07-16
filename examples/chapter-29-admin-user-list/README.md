@@ -10,4 +10,3 @@
 - `requests.http`
 
 Endpoint นี้อยู่ใต้ `/api/v1/admin/**` จึงต้องใช้ admin token
-

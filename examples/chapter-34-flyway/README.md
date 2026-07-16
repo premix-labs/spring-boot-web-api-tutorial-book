@@ -14,4 +14,3 @@
 ```text
 src/main/resources/db/migration/
 ```
-

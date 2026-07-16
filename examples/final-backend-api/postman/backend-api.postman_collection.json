@@ -48,13 +48,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/actuator/health",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "actuator",
-                "health"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["actuator", "health"]
             }
           },
           "event": [
@@ -83,13 +78,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/v3/api-docs",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "v3",
-                "api-docs"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["v3", "api-docs"]
             }
           },
           "event": [
@@ -167,15 +157,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "register"]
             }
           }
         },
@@ -218,15 +201,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/login",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "login"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "login"]
             }
           }
         },
@@ -247,15 +223,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/me",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "me"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "me"]
             }
           },
           "event": [
@@ -299,15 +268,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/users?page=0&size=10&keyword=&role=&status=",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "users"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "users"],
               "query": [
                 {
                   "key": "page",
@@ -362,16 +324,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/users/{{registeredUserId}}",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "users",
-                "{{registeredUserId}}"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "users", "{{registeredUserId}}"]
             }
           },
           "event": [
@@ -409,17 +363,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/users/{{registeredUserId}}/role",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "users",
-                "{{registeredUserId}}",
-                "role"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "users", "{{registeredUserId}}", "role"]
             }
           },
           "event": [
@@ -457,17 +402,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/users/{{registeredUserId}}/status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "users",
-                "{{registeredUserId}}",
-                "status"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "users", "{{registeredUserId}}", "status"]
             }
           },
           "event": [
@@ -505,17 +441,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/users/{{registeredUserId}}/status",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "users",
-                "{{registeredUserId}}",
-                "status"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "users", "{{registeredUserId}}", "status"]
             }
           },
           "event": [
@@ -559,15 +486,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/audit-logs?page=0&size=10",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "audit-logs"
-              ],
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "audit-logs"],
               "query": [
                 {
                   "key": "page",
@@ -620,15 +540,8 @@
             },
             "url": {
               "raw": "{{baseUrl}}/api/v1/auth/register",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "auth",
-                "register"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "auth", "register"]
             }
           },
           "event": [
@@ -657,15 +570,8 @@
             "header": [],
             "url": {
               "raw": "{{baseUrl}}/api/v1/admin/users",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                "api",
-                "v1",
-                "admin",
-                "users"
-              ]
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "v1", "admin", "users"]
             }
           },
           "event": [

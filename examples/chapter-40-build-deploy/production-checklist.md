@@ -12,4 +12,3 @@
 - database backup/restore มีแผน
 - admin endpoint ต้องใช้ role `ADMIN`
 - Swagger UI เปิดหรือปิดตาม policy ของทีม
-

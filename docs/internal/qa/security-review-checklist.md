@@ -48,4 +48,3 @@ description: รายการตรวจ security สำหรับหนั
 - Docker Compose ไม่ฝัง production secret จริง
 - CORS ไม่เปิด wildcard สำหรับ production โดยไม่อธิบาย
 - Flyway migration run ก่อน Hibernate validation ใน final project
-

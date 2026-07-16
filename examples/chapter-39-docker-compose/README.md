@@ -13,4 +13,3 @@
 ```powershell
 .\gradlew.bat clean build
 ```
-

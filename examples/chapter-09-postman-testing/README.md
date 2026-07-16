@@ -14,8 +14,8 @@
 
 สร้าง environment variable:
 
-| Variable | Initial value |
-| --- | --- |
+| Variable  | Initial value           |
+| --------- | ----------------------- |
 | `baseUrl` | `http://localhost:8080` |
 
 จากนั้นสร้าง request ตามไฟล์ `requests.http`
@@ -27,4 +27,3 @@
 3. `GET /api/v1/users/1` ต้องได้ user ที่สร้าง
 4. `DELETE /api/v1/users/1` ต้องได้ status `204 No Content`
 5. `GET /api/v1/users/1` อีกครั้งต้องได้ status `404 Not Found`
-

@@ -18,4 +18,3 @@
 ## ข้อควรระวัง
 
 ไฟล์ `SecurityConfig.java` มี `PasswordEncoder` bean แล้ว ถ้าโปรเจกต์ยังมี `SecurityBeansConfig.java` จากบท 22 ให้เหลือ bean นี้ไว้แค่ที่เดียว
-

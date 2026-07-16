@@ -1,0 +1,197 @@
+---
+title: "เข้าใจโครงสร้างโปรเจกต์"
+description: "เข้าใจ package และหน้าที่ของแต่ละ layer"
+chapter: 7
+icon: settings
+part: "ภาค 1: ปูพื้นฐาน"
+---
+
+# เข้าใจโครงสร้างโปรเจกต์
+
+## เป้าหมายของบท
+
+บทนี้อธิบายโครงสร้าง project ที่จะใช้ทั้งเล่ม เพื่อให้รู้ว่า code แต่ละประเภทควรอยู่ที่ไหน
+
+## ทำไมต้องจัดโครงสร้าง
+
+ตอน project เล็ก จะเขียนทุกอย่างไว้ใน controller ก็ยังพอรันได้ แต่เมื่อมี register, login, JWT, role, admin endpoint, validation, exception และ database โค้ดจะเริ่มอ่านยากทันที
+
+การแยก layer ทำให้:
+
+- code อ่านง่าย
+- feature ใหม่เพิ่มง่าย
+- test ง่ายขึ้น
+- เปลี่ยน implementation ภายในได้โดยไม่กระทบ API มากเกินไป
+
+## โครงสร้างหลัก
+
+ในหนังสือจะใช้ package:
+
+```text
+com.example.backendapi
+  config
+  controller
+  dto
+  exception
+  model
+  repository
+  service
+```
+
+## หน้าที่แต่ละ package
+
+### controller
+
+รับ HTTP request และส่ง response
+
+ตัวอย่าง:
+
+```text
+AuthController
+UserController
+AdminUserController
+```
+
+Controller ไม่ควรคุยกับ database โดยตรง
+
+### service
+
+เก็บ business logic ของระบบ
+
+ตัวอย่าง:
+
+```text
+AuthService
+UserService
+AdminUserService
+JwtService
+```
+
+Service เป็นที่ที่เราตรวจ email ซ้ำ, hash password, สร้าง JWT และเปลี่ยน role
+
+### repository
+
+ติดต่อ database ผ่าน Spring Data JPA
+
+ตัวอย่าง:
+
+```java
+public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
+}
+```
+
+### model
+
+เก็บ Entity ที่ map กับ database table
+
+ตัวอย่าง:
+
+```text
+User
+AuditLog
+Role
+UserStatus
+```
+
+### dto
+
+เก็บ object ที่ใช้รับ request และส่ง response
+
+ตัวอย่าง:
+
+```text
+RegisterRequest
+LoginRequest
+LoginResponse
+UserResponse
+```
+
+DTO ช่วยให้เราไม่ต้องส่ง Entity ตรง ๆ ออก API
+
+### exception
+
+เก็บ custom exception และ global exception handler
+
+ตัวอย่าง:
+
+```text
+UserNotFoundException
+EmailAlreadyUsedException
+GlobalExceptionHandler
+```
+
+### config
+
+เก็บ configuration ที่ต้องใช้ทั้งระบบ
+
+ตัวอย่าง:
+
+```text
+SecurityConfig
+OpenApiConfig
+JwtConfig
+```
+
+## Flow ตัวอย่าง: register
+
+```text
+POST /api/v1/auth/register
+        |
+        v
+AuthController
+        |
+        v
+AuthService
+        |
+        v
+UserRepository
+        |
+        v
+PostgreSQL
+```
+
+ลำดับจริง:
+
+1. `AuthController` รับ `RegisterRequest`
+2. `AuthService` ตรวจ username/email ซ้ำ
+3. `AuthService` hash password
+4. `UserRepository` save user
+5. `AuthService` แปลง `User` เป็น `UserResponse`
+6. Controller ส่ง response กลับ
+
+## สร้าง package ใน project
+
+สร้าง package เหล่านี้ใต้ `com.example.backendapi`
+
+```text
+config
+controller
+dto
+exception
+model
+repository
+service
+```
+
+ช่วงแรกบาง package ยังว่างได้ ไม่เป็นไร เราจะค่อย ๆ เติมเมื่อถึงบทที่เกี่ยวข้อง
+
+## Checkpoint
+
+ถ้าไม่แน่ใจว่า code ควรอยู่ไหน ให้ถามแบบนี้:
+
+- รับ HTTP request หรือไม่: controller
+- เป็น business rule หรือไม่: service
+- ติดต่อ database หรือไม่: repository
+- แทน table หรือไม่: model
+- เป็น request/response หรือไม่: dto
+- เป็น config ทั้งระบบหรือไม่: config
+
+## แบบฝึกหัดท้ายบท
+
+สร้าง package ตามบทนี้ แล้ว commit เป็น checkpoint แรก:
+
+```powershell
+git add .
+git commit -m "Create base package structure"
+```

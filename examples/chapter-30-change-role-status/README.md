@@ -12,4 +12,3 @@
 - `requests.http`
 
 บทนี้ยังไม่บันทึก audit log ตัวอย่าง audit log จะอยู่ในบทที่ 31
-

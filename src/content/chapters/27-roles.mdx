@@ -1,0 +1,156 @@
+---
+title: "Role USER และ ADMIN"
+description: "วางระบบ role เพื่อแยกสิทธิ์ผู้ใช้ทั่วไปและผู้ดูแลระบบ"
+chapter: 35
+icon: user-cog
+part: "ภาค 6: Admin System"
+---
+
+# Role USER และ ADMIN
+
+## เป้าหมายของบท
+
+บทนี้จะวางแนวคิดเรื่อง role ให้ชัด ก่อนสร้าง admin endpoint จริงในบทถัดไป
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- role ใช้ควบคุมสิทธิ์อย่างไร
+- ทำไม user ใหม่ต้องได้ role `USER` เสมอ
+- ทำไม client ห้ามส่ง role ตอน register
+- JWT ต้องมี role claim เพื่อให้ Spring Security ตรวจสิทธิ์ได้
+- `hasRole("ADMIN")` ต่างจาก authority `ROLE_ADMIN` อย่างไร
+
+## Role ใน Backend API
+
+ระบบนี้เริ่มจาก 2 role:
+
+```java
+package com.example.backendapi.model;
+
+public enum Role {
+    USER,
+    ADMIN
+}
+```
+
+ความหมาย:
+
+| Role | ใช้กับใคร |
+| --- | --- |
+| `USER` | ผู้ใช้ทั่วไป |
+| `ADMIN` | ผู้ดูแลระบบที่จัดการผู้ใช้ได้ |
+
+ตอนนี้ยังไม่เพิ่ม role อื่น เช่น `MANAGER`, `SUPER_ADMIN` เพราะจะทำให้หนังสือช่วงนี้ซับซ้อนเกินไป
+
+## Role ใน User entity
+
+ใน `User` entity ควรเก็บ role เป็น enum string:
+
+```java
+@Enumerated(EnumType.STRING)
+@Column(nullable = false, length = 20)
+private Role role = Role.USER;
+```
+
+เหตุผลที่ใช้ `EnumType.STRING`:
+
+- database อ่านง่าย เช่น `USER`, `ADMIN`
+- ไม่เสี่ยงพังเมื่อเปลี่ยนลำดับ enum
+- debug ง่ายกว่าเลข `0`, `1`
+
+## User ใหม่ต้องเป็น USER
+
+ตอน register ห้ามรับ role จาก request body
+
+request ที่ถูกต้องควรมีแค่นี้:
+
+```json
+{
+  "username": "john",
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+ไม่ควรมี:
+
+```json
+{
+  "username": "john",
+  "email": "john@example.com",
+  "password": "password123",
+  "role": "ADMIN"
+}
+```
+
+ถ้า backend ยอมรับ role จาก client ผู้ใช้สามารถแก้ request แล้วสมัครเป็น admin เองได้
+
+## ใส่ role ลง JWT
+
+ในบท JWT เราใส่ claim:
+
+```java
+.claim("roles", List.of(user.getRole().name()))
+```
+
+payload ที่ได้จะมี:
+
+```json
+{
+  "sub": "john@example.com",
+  "roles": ["USER"]
+}
+```
+
+Spring Security จะใช้ claim นี้ตัดสินว่า request มีสิทธิ์เข้า admin endpoint หรือไม่
+
+## hasRole กับ ROLE_
+
+ใน Spring Security:
+
+```java
+.requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
+```
+
+แปลว่า Spring จะมองหา authority:
+
+```text
+ROLE_ADMIN
+```
+
+ดังนั้นถ้า JWT เก็บ role เป็น `ADMIN` เราต้อง map ให้มี prefix `ROLE_`
+
+```java
+grantedAuthoritiesConverter.setAuthoritiesClaimName("roles");
+grantedAuthoritiesConverter.setAuthorityPrefix("ROLE_");
+```
+
+## สร้าง admin คนแรกอย่างไร
+
+ในช่วงเรียน วิธีง่ายสุดคือสร้าง user ปกติด้วย register แล้วแก้ role ใน database เป็น `ADMIN`
+
+ตัวอย่าง SQL:
+
+```sql
+UPDATE users
+SET role = 'ADMIN'
+WHERE email = 'admin@example.com';
+```
+
+ในงานจริงควรมี seed/migration หรือระบบ invite admin ที่ควบคุมได้ ไม่ควรแก้ database มือใน production
+
+## ข้อควรระวัง
+
+- อย่าให้ register รับ role
+- อย่าส่ง role จาก frontend แล้วเชื่อทันที
+- role ต้องถูกตรวจที่ backend เสมอ
+- menu frontend ซ่อน admin page ได้ แต่ไม่ใช่ security หลัก
+- backend ต้องเป็นคนปฏิเสธ request ที่สิทธิ์ไม่พอ
+
+## แบบฝึกหัดท้ายบท
+
+1. ตรวจว่า `Role` enum มี `USER`, `ADMIN`
+2. ตรวจว่า `User` entity ตั้ง default role เป็น `USER`
+3. login แล้ว decode JWT เพื่อดู claim `roles`
+4. แก้ user คนหนึ่งใน database ให้เป็น `ADMIN`
+5. login ใหม่แล้วดูว่า JWT เปลี่ยน role เป็น `ADMIN`

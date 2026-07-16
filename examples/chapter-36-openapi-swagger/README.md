@@ -15,4 +15,3 @@ Swagger UI:
 ```text
 http://localhost:8080/swagger-ui/index.html
 ```
-

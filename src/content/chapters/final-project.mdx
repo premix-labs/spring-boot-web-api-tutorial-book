@@ -1,0 +1,84 @@
+---
+title: "Final Project"
+description: "วิธีเปิดดูและรันโปรเจกต์ final-backend-api"
+chapter: 54
+icon: book-marked
+part: "ภาคผนวก"
+---
+
+# Final Project
+
+โปรเจกต์ `final-backend-api` คือโปรเจกต์รวมท้ายเล่มที่นำเนื้อหาจากบทต่าง ๆ มาประกอบเป็นระบบเดียว
+
+ตำแหน่งไฟล์:
+
+```text
+examples/final-backend-api/
+```
+
+## สิ่งที่อยู่ในโปรเจกต์นี้
+
+- REST API ด้วย Spring Boot
+- PostgreSQL และ Spring Data JPA
+- Flyway migration
+- Register/Login
+- BCrypt password hashing
+- JWT authentication
+- Role `USER` และ `ADMIN`
+- Admin user management
+- Audit log
+- OpenAPI/Swagger UI
+- Unit test และ integration test
+- Docker Compose
+
+## คำสั่งตรวจ test
+
+เข้าไปที่โฟลเดอร์ final project แล้วรัน Gradle wrapper ที่เตรียมไว้:
+
+```powershell
+cd examples/final-backend-api
+.\gradlew.bat test
+```
+
+## คำสั่ง build jar
+
+```powershell
+cd examples/final-backend-api
+.\gradlew.bat bootJar
+```
+
+ไฟล์ jar จะถูกสร้างที่:
+
+```text
+examples/final-backend-api/build/libs/final-backend-api-1.0.0.jar
+```
+
+## การทดสอบ API
+
+ใช้ไฟล์นี้เปิดใน IntelliJ HTTP Client ได้:
+
+```text
+examples/final-backend-api/requests.http
+```
+
+หรือ import Postman collection ได้จาก:
+
+```text
+examples/final-backend-api/postman/backend-api.postman_collection.json
+examples/final-backend-api/postman/backend-api-local.postman_environment.json
+```
+
+endpoint สำคัญ:
+
+- `POST /api/v1/auth/register`
+- `POST /api/v1/auth/login`
+- `GET /api/v1/auth/me`
+- `GET /api/v1/admin/users`
+- `PATCH /api/v1/admin/users/{id}/role`
+- `PATCH /api/v1/admin/users/{id}/status`
+- `GET /api/v1/admin/audit-logs`
+- `GET /swagger-ui.html`
+
+## หมายเหตุสำหรับมือใหม่
+
+โปรเจกต์นี้ควรอ่านหลังจบบทที่ 40 เพราะเป็นจุดที่ผู้อ่านจะเห็นว่าชิ้นส่วนจากแต่ละบทถูกนำมาประกอบเป็น backend API ที่ใกล้เคียงงานจริงอย่างไร

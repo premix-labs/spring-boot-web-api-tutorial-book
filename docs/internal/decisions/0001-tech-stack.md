@@ -1,5 +1,5 @@
 ---
-title: "0001 - Tech Stack"
+title: '0001 - Tech Stack'
 description: เหตุผลในการเลือก stack หลักของหนังสือ
 ---
 
@@ -42,4 +42,3 @@ Accepted
 - setup หนักกว่า in-memory tutorial
 - PostgreSQL ต้องใช้ local install หรือ Docker
 - Spring Security/JWT ต้องสอนอย่างระวังไม่ให้กระโดดเร็วเกินไป
-

@@ -74,4 +74,3 @@ cd examples/final-backend-api
 ```powershell
 docker compose config
 ```
-

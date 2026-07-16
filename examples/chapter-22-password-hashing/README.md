@@ -10,4 +10,3 @@
 - `requests.http`
 
 หลังทำบทนี้ password ใน database ต้องไม่ใช่ plain text
-

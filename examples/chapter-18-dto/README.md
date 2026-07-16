@@ -15,4 +15,3 @@
 ## จุดสำคัญ
 
 `UserResponse` ไม่มี password ดังนั้น API จะไม่ส่ง password กลับไปหา client
-

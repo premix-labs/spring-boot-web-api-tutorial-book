@@ -1,0 +1,45 @@
+---
+title: "Error ที่มือใหม่เจอบ่อย"
+description: "รวมปัญหาที่คาดว่าจะพบระหว่างเรียน"
+chapter: 53
+icon: book-marked
+part: "ภาคผนวก"
+---
+
+# Error ที่มือใหม่เจอบ่อย
+
+## Port ถูกใช้งานอยู่
+
+เปลี่ยน port หรือปิด process ที่ใช้ port เดิม
+
+```properties
+server.port=8081
+```
+
+## ต่อ database ไม่ได้
+
+ตรวจสอบ host, port, database name, username และ password
+
+## Validation ไม่ทำงาน
+
+ตรวจว่า controller มี `@Valid` ก่อน `@RequestBody`
+
+## 401 ทั้งที่ใส่ token แล้ว
+
+ตรวจว่า header ใช้รูปแบบนี้:
+
+```http
+Authorization: Bearer <token>
+```
+
+และ token ยังไม่หมดอายุ
+
+## 403 ตอนเรียก admin endpoint
+
+แปลว่า login แล้ว แต่ role ไม่พอ ต้องใช้ user ที่มี role `ADMIN`
+
+## Hibernate สร้าง table ไม่ตรง
+
+ตรวจ `@Table`, `@Column`, enum mapping และค่า `spring.jpa.hibernate.ddl-auto`
+
+ถ้าใช้ Flyway แล้ว ให้ตรวจว่า migration script ตรงกับ Entity

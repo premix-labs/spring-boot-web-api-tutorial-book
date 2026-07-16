@@ -1,5 +1,5 @@
 ---
-title: "0002 - Progressive and Final Projects"
+title: '0002 - Progressive and Final Projects'
 description: เหตุผลในการมีทั้ง examples รายบทและ final project
 ---
 
@@ -26,4 +26,3 @@ repo ต้องมีสองระดับตัวอย่าง:
 - final project ใช้เป็น source of truth สำหรับ end-state
 - ความต่างระหว่าง chapter example และ final project ต้องอธิบายในบทที่เกี่ยวข้อง
 - validation report ต้องบันทึกผลทำตามจริง
-

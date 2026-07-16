@@ -1,5 +1,5 @@
 ---
-title: "0004 - Gradle and Versioning"
+title: '0004 - Gradle and Versioning'
 description: เหตุผลในการใช้ Gradle wrapper และคุม dependency version
 ---
 
@@ -37,4 +37,3 @@ Accepted
 
 - ต้องอธิบายความต่างระหว่าง Gradle global กับ wrapper
 - ต้องมีคำสั่งแยก Windows และ macOS/Linux
-

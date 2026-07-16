@@ -9,4 +9,3 @@
 - `application-prod.properties`
 
 production ต้องส่งค่าผ่าน environment variables ไม่ควรใช้ default secret ในไฟล์ config
-

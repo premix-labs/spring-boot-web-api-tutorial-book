@@ -1,0 +1,147 @@
+---
+title: "Controller แรก"
+description: "สร้าง endpoint แรกด้วย @RestController"
+chapter: 9
+icon: server
+part: "ภาค 2: REST API"
+---
+
+# Controller แรก
+
+## เป้าหมายของบท
+
+บทนี้จะสร้าง endpoint แรกของระบบ เพื่อให้เห็นว่า Spring Boot รับ request และตอบ response ได้อย่างไร
+
+หลังจบบทนี้ เราจะมี:
+
+```text
+GET /hello
+GET /health
+```
+
+## Controller คืออะไร
+
+Controller คือ class ที่อยู่หน้าสุดของ backend สำหรับรับ HTTP request จาก client ใน Spring Boot เราใช้ `@RestController` เพื่อบอกว่า class นี้เป็น REST controller
+
+## สร้าง HelloController
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/backendapi/controller/HelloController.java
+```
+
+ใส่โค้ด:
+
+```java
+package com.example.backendapi.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class HelloController {
+
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello Spring Boot";
+    }
+}
+```
+
+## รัน application
+
+บน Windows:
+
+```powershell
+.\gradlew.bat bootRun
+```
+
+จากนั้นเปิด browser หรือ Postman:
+
+```text
+GET http://localhost:8080/hello
+```
+
+ควรได้:
+
+```text
+Hello Spring Boot
+```
+
+## อธิบายโค้ด
+
+`@RestController` บอก Spring ว่า class นี้รับ HTTP request และค่าที่ return จาก method จะเป็น response body
+
+`@GetMapping("/hello")` บอกว่า method นี้รับ HTTP GET ที่ path `/hello`
+
+method `hello()` return `String` ดังนั้น response ที่ client เห็นคือ text ธรรมดา
+
+## เพิ่ม health endpoint
+
+เพิ่ม method ใน class เดิม:
+
+```java
+@GetMapping("/health")
+public String health() {
+    return "OK";
+}
+```
+
+ทดสอบ:
+
+```text
+GET http://localhost:8080/health
+```
+
+ควรได้:
+
+```text
+OK
+```
+
+## ทำไม health endpoint มีประโยชน์
+
+ในระบบจริง health endpoint ใช้ตรวจว่า application ยังตอบ request ได้หรือไม่ ต่อไปเราสามารถต่อยอดเป็น Spring Boot Actuator ได้
+
+## ปัญหาที่พบบ่อย
+
+### 404 Not Found
+
+ตรวจว่า path ถูกต้องหรือไม่ เช่น `/hello` ไม่ใช่ `/Hello`
+
+### Controller ไม่ถูก scan
+
+ตรวจว่า `HelloController` อยู่ใต้ package หลัก เช่น:
+
+```text
+com.example.backendapi.controller
+```
+
+ถ้า controller อยู่นอก package หลัก Spring อาจ scan ไม่เจอ
+
+### Application ไม่ start
+
+กลับไปดู log ใน terminal ก่อนเสมอ เพราะ Spring Boot มักบอกสาเหตุชัดเจน เช่น port ชน หรือ bean error
+
+## Checkpoint
+
+บทนี้ถือว่าสำเร็จเมื่อ:
+
+- `GET /hello` ตอบ `Hello Spring Boot`
+- `GET /health` ตอบ `OK`
+- ทดสอบผ่าน browser หรือ Postman
+
+## แบบฝึกหัดท้ายบท
+
+เพิ่ม endpoint:
+
+```text
+GET /version
+```
+
+ให้ตอบกลับ:
+
+```text
+Backend API v1
+```

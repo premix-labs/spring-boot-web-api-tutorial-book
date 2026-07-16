@@ -1,0 +1,131 @@
+---
+title: "Current User / Me"
+description: "สร้าง endpoint สำหรับดูข้อมูลผู้ใช้ที่ login อยู่จาก JWT"
+chapter: 32
+icon: shield-check
+part: "ภาค 5: Login/Register"
+---
+
+# Current User / Me
+
+## เป้าหมายของบท
+
+บทนี้จะเพิ่ม endpoint:
+
+```text
+GET /api/v1/auth/me
+```
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- `/me` ใช้ทำอะไร
+- Spring Security อ่าน subject จาก JWT อย่างไร
+- ใช้ `Authentication` ใน controller อย่างไร
+- ดึง user ปัจจุบันจาก email ใน token ได้อย่างไร
+- ทำไม `/me` ต้องเป็น protected endpoint
+
+## ทำไมต้องมี /me
+
+หลัง frontend login แล้วได้ token frontend มักต้องรู้ว่า token นี้เป็นของใคร เช่น:
+
+- แสดงชื่อผู้ใช้บน navbar
+- เช็ก role เพื่อแสดงเมนู admin
+- refresh หน้าแล้วยังรู้ว่า user เป็นใคร
+- ตรวจว่า token ยังใช้ได้หรือไม่
+
+endpoint `/me` จึงเป็น endpoint มาตรฐานในระบบที่ใช้ token
+
+## Authentication มาจากไหน
+
+เมื่อ client ส่ง:
+
+```http
+Authorization: Bearer <token>
+```
+
+Spring Security Resource Server จะตรวจ token ถ้าถูกต้องจะสร้าง `Authentication` ให้ request นั้น
+
+ค่า `authentication.getName()` จะมาจาก claim `sub` ของ JWT ซึ่งในหนังสือนี้เราใช้ email เป็น subject
+
+## เพิ่ม endpoint ใน AuthController
+
+เปิด `AuthController` แล้วเพิ่ม:
+
+```java
+@GetMapping("/me")
+public ApiResponse<UserResponse> me(Authentication authentication) {
+    String email = authentication.getName();
+    return ApiResponse.ok("Current user found", authService.getCurrentUser(email));
+}
+```
+
+`import` ที่ต้องใช้:
+
+```java
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+```
+
+## เพิ่ม method ใน AuthService
+
+```java
+public UserResponse getCurrentUser(String email) {
+    User user = userRepository.findByEmail(email)
+            .orElseThrow(() -> new BadCredentialsException("Invalid token"));
+
+    return toResponse(user);
+}
+```
+
+ถ้า token ถูกต้องแต่หา user ใน database ไม่เจอ อาจเป็นเพราะ user ถูกลบไปแล้ว ในบทนี้ตอบแบบกลาง ๆ ว่า token ใช้ไม่ได้
+
+## ทดสอบแบบไม่มี token
+
+```http
+GET /api/v1/auth/me
+```
+
+ควรได้:
+
+```text
+401 Unauthorized
+```
+
+## ทดสอบแบบมี token
+
+```http
+GET /api/v1/auth/me
+Authorization: Bearer eyJ...
+```
+
+response:
+
+```json
+{
+  "success": true,
+  "message": "Current user found",
+  "data": {
+    "id": 1,
+    "username": "john",
+    "email": "john@example.com",
+    "role": "USER",
+    "status": "ACTIVE"
+  }
+}
+```
+
+## ถ้า user ถูก inactive ควรทำอย่างไร
+
+ในบทนี้ `/me` ยังดึงข้อมูล user ปกติ
+
+ในงานจริงควรคิดต่อว่า user ที่ `INACTIVE` ควรใช้ token เดิมต่อได้ไหม ส่วนมากควรปฏิเสธ request หรือบังคับ login ใหม่หลังเปลี่ยนสถานะ
+
+เรื่องนี้จะกลับมาอีกครั้งในภาค Admin System
+
+## แบบฝึกหัดท้ายบท
+
+1. เพิ่ม endpoint `/api/v1/auth/me`
+2. login เพื่อรับ token
+3. เรียก `/me` โดยไม่ใส่ token
+4. เรียก `/me` โดยใส่ token
+5. ลองแก้ token หนึ่งตัวอักษรแล้วเรียกใหม่

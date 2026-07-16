@@ -19,4 +19,3 @@
 ## คำเตือน
 
 ค่า password ในไฟล์ตัวอย่างใช้เพื่อการเรียนเท่านั้น งานจริงควรใช้ environment variables หรือ secret manager
-

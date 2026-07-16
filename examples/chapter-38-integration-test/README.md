@@ -13,4 +13,3 @@
 ```text
 src/test/java/com/example/backendapi/controller/AuthControllerIntegrationTest.java
 ```
-

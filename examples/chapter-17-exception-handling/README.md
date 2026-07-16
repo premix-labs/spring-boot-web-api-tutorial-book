@@ -11,9 +11,8 @@
 
 ## HTTP status ที่ใช้
 
-| กรณี | Status |
-| --- | --- |
-| หา user ไม่เจอ | `404 Not Found` |
-| username/email ซ้ำ | `409 Conflict` |
+| กรณี               | Status            |
+| ------------------ | ----------------- |
+| หา user ไม่เจอ     | `404 Not Found`   |
+| username/email ซ้ำ | `409 Conflict`    |
 | validation ไม่ผ่าน | `400 Bad Request` |
-

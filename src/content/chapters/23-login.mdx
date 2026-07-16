@@ -1,0 +1,197 @@
+---
+title: "Login"
+description: "ตรวจ email/password และออกแบบ login response ก่อนเชื่อม JWT"
+chapter: 30
+icon: shield-check
+part: "ภาค 5: Login/Register"
+---
+
+# Login
+
+## เป้าหมายของบท
+
+บทนี้จะเพิ่ม endpoint:
+
+```text
+POST /api/v1/auth/login
+```
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- login flow ทำงานอย่างไร
+- ทำไมต้องหา user ด้วย email
+- ทำไมต้องใช้ `passwordEncoder.matches`
+- ทำไมไม่ควรบอกละเอียดว่า email ผิดหรือ password ผิด
+- login response ควรมี token และข้อมูล user
+
+## Login flow
+
+```text
+Client
+  -> POST /api/v1/auth/login
+  -> AuthController
+  -> AuthService
+  -> UserRepository
+  -> PasswordEncoder
+  -> LoginResponse
+```
+
+ขั้นตอน:
+
+1. รับ email/password
+2. validate request
+3. หา user ด้วย email
+4. ถ้าไม่เจอ ตอบ `401 Unauthorized`
+5. ถ้า password ไม่ถูก ตอบ `401 Unauthorized`
+6. ถ้าถูกต้อง สร้าง login response
+
+## สร้าง LoginRequest
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/backendapi/dto/LoginRequest.java
+```
+
+```java
+package com.example.backendapi.dto;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+
+public record LoginRequest(
+        @NotBlank(message = "Email is required")
+        @Email(message = "Email format is invalid")
+        String email,
+
+        @NotBlank(message = "Password is required")
+        String password
+) {
+}
+```
+
+## สร้าง LoginResponse
+
+สร้างไฟล์:
+
+```text
+src/main/java/com/example/backendapi/dto/LoginResponse.java
+```
+
+```java
+package com.example.backendapi.dto;
+
+public record LoginResponse(
+        String token,
+        UserResponse user
+) {
+}
+```
+
+บทนี้จะใส่ token เป็น placeholder ก่อน บทถัดไปจะสร้าง JWT จริง
+
+## เพิ่ม login endpoint
+
+เปิด `AuthController` แล้วเพิ่ม:
+
+```java
+@PostMapping("/login")
+public ApiResponse<LoginResponse> login(
+        @Valid @RequestBody LoginRequest request
+) {
+    return ApiResponse.ok("Login successful", authService.login(request));
+}
+```
+
+## เพิ่ม login method ใน AuthService
+
+```java
+public LoginResponse login(LoginRequest request) {
+    User user = userRepository.findByEmail(request.email())
+            .orElseThrow(() -> new BadCredentialsException("Invalid email or password"));
+
+    if (!passwordEncoder.matches(request.password(), user.getPassword())) {
+        throw new BadCredentialsException("Invalid email or password");
+    }
+
+    return new LoginResponse("token-will-be-created-next", toResponse(user));
+}
+```
+
+ใช้ `BadCredentialsException` จาก Spring Security:
+
+```java
+import org.springframework.security.authentication.BadCredentialsException;
+```
+
+## เพิ่ม handler สำหรับ 401
+
+เปิด `GlobalExceptionHandler` แล้วเพิ่ม:
+
+```java
+@ExceptionHandler(BadCredentialsException.class)
+public ResponseEntity<ErrorResponse> handleBadCredentials(
+        BadCredentialsException ex,
+        HttpServletRequest request
+) {
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(ErrorResponse.of(401, ex.getMessage(), request.getRequestURI()));
+}
+```
+
+## อย่าตอบละเอียดเกินไป
+
+อย่าทำแบบนี้:
+
+```text
+Email not found
+Password is wrong
+```
+
+เพราะผู้โจมตีจะใช้แยกได้ว่า email ไหนมี account อยู่จริง
+
+ควรตอบกลาง ๆ:
+
+```text
+Invalid email or password
+```
+
+## ทดสอบ
+
+กรณีสำเร็จ:
+
+```http
+POST /api/v1/auth/login
+Content-Type: application/json
+```
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+กรณี password ผิด:
+
+```json
+{
+  "email": "john@example.com",
+  "password": "wrong-password"
+}
+```
+
+ควรได้:
+
+```text
+401 Unauthorized
+```
+
+## แบบฝึกหัดท้ายบท
+
+1. สร้าง `LoginRequest`
+2. สร้าง `LoginResponse`
+3. เพิ่ม endpoint `/login`
+4. ทดสอบ login สำเร็จ
+5. ทดสอบ email ไม่มี
+6. ทดสอบ password ผิด

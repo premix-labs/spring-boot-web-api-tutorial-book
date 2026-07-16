@@ -64,4 +64,3 @@ macOS/Linux Bash:
 - ห้ามสื่อว่า secret ใน `application.properties` เป็น production best practice
 - แยก local development, test และ production configuration
 - อธิบายว่า role/permission ต้อง enforce ที่ backend
-

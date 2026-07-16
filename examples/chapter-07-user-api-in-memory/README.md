@@ -45,4 +45,3 @@ curl.exe -X DELETE http://localhost:8080/api/v1/users/1
 ## ข้อควรจำ
 
 ข้อมูลในตัวอย่างนี้หายทุกครั้งที่ restart application เพราะเก็บไว้ใน memory เท่านั้น
-

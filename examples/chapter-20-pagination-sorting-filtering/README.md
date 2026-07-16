@@ -17,4 +17,3 @@
 ```text
 GET /api/v1/users?page=0&size=20&sortBy=createdAt&direction=desc&keyword=john
 ```
-

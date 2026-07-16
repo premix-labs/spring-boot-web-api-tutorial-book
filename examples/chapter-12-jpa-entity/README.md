@@ -11,4 +11,3 @@ src/main/java/com/example/backendapi/model/User.java
 ```
 
 หลังจากตั้งค่า `spring.jpa.hibernate.ddl-auto=update` แล้วรัน application Hibernate จะสร้าง table `users` จาก `User` entity
-

@@ -32,18 +32,24 @@
 ```text
 .
 ├── .github/workflows/deploy.yml
-├── docs/internal/    # เอกสารควบคุมคุณภาพสำหรับพัฒนา/release หนังสือ
+├── docs/internal/         # เอกสารควบคุมคุณภาพสำหรับพัฒนา/release หนังสือ
 ├── public/
+├── scripts/new-chapter.mjs
 ├── src/
-│   ├── assets/
+│   ├── components/        # Callout, Steps, Tabs, Figure, Kbd, Badge — ใช้ได้ในทุกบท
 │   ├── content/
-│   │   └── docs/       # เนื้อหาหนังสือแต่ละบท
-│   └── content.config.ts
-├── examples/           # โค้ดตัวอย่างประกอบหนังสือ
+│   │   └── chapters/       # เนื้อหาหนังสือแต่ละบท (Astro Content Collection)
+│   ├── content.config.ts   # Zod schema ของ frontmatter
+│   └── site.config.ts      # แบรนด์/hero/features ของเว็บหนังสือ
+├── examples/               # โค้ดตัวอย่างประกอบหนังสือ
 ├── astro.config.mjs
 ├── package.json
 └── tsconfig.json
 ```
+
+เว็บหนังสือ build ด้วย Astro + Tailwind 4 จาก `astro-book-template` — ทุกบทใช้ component ได้โดยไม่ต้อง
+import: `<Callout>`, `<Steps>`, `<Tabs>`/`<Tab>`, `<Figure>`, `<Kbd>`, `<Badge>` Frontmatter รองรับ `part`
+สำหรับจัดกลุ่มบทตาม ภาค (เช่น `part: "ภาค 1: ปูพื้นฐาน"`) — sidebar และหน้าแรกจัดกลุ่มให้อัตโนมัติ
 
 ## เอกสารควบคุมคุณภาพ
 
@@ -133,7 +139,7 @@ BASE_PATH = /<repo-name>
 
 ## Writing Flow
 
-1. เขียนหรือแก้เนื้อหาใน `src/content/docs/`
+1. เพิ่มบทใหม่ด้วย `npm run new-chapter -- "ชื่อบท"` หรือแก้ไฟล์ที่มีอยู่ใน `src/content/chapters/`
 2. เก็บโค้ดประกอบบทไว้ใน `examples/`
 3. รัน `npm run dev` เพื่อ preview
 4. รัน `npm run build` ก่อน publish

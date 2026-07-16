@@ -1,0 +1,185 @@
+---
+title: "ทดสอบ API ด้วย Postman"
+description: "ใช้ Postman ยิง request และตรวจ response"
+chapter: 13
+icon: server
+part: "ภาค 2: REST API"
+---
+
+# ทดสอบ API ด้วย Postman
+
+## เป้าหมายของบท
+
+บทนี้จะใช้ Postman ทดสอบ User API ที่สร้างไว้ เพื่อให้ผู้อ่านฝึกดู request, response, status code และ JSON body อย่างเป็นระบบ
+
+## สร้าง Collection
+
+ใน Postman ให้สร้าง collection ชื่อ:
+
+```text
+Backend API
+```
+
+จากนั้นเพิ่ม folder:
+
+```text
+01 Basic
+02 Users In Memory
+```
+
+## สร้าง Environment
+
+สร้าง environment ชื่อ:
+
+```text
+Backend API Local
+```
+
+เพิ่ม variable:
+
+```text
+baseUrl = http://localhost:8080
+```
+
+เวลาเรียก API ให้ใช้:
+
+```text
+{{baseUrl}}/api/v1/users
+```
+
+แทนการพิมพ์ URL เต็มทุกครั้ง
+
+## Request 1: Health
+
+```text
+GET {{baseUrl}}/health
+```
+
+Expected response:
+
+```text
+OK
+```
+
+## Request 2: Create User
+
+```text
+POST {{baseUrl}}/api/v1/users
+```
+
+Header:
+
+```http
+Content-Type: application/json
+```
+
+Body:
+
+```json
+{
+  "username": "john",
+  "email": "john@example.com"
+}
+```
+
+Expected response:
+
+```json
+{
+  "id": 1,
+  "username": "john",
+  "email": "john@example.com"
+}
+```
+
+## Request 3: Get Users
+
+```text
+GET {{baseUrl}}/api/v1/users
+```
+
+Expected response:
+
+```json
+[
+  {
+    "id": 1,
+    "username": "john",
+    "email": "john@example.com"
+  }
+]
+```
+
+## Request 4: Get User By Id
+
+```text
+GET {{baseUrl}}/api/v1/users/1
+```
+
+## Request 5: Delete User
+
+```text
+DELETE {{baseUrl}}/api/v1/users/1
+```
+
+Expected response:
+
+```text
+User deleted
+```
+
+## วิธีอ่านผลลัพธ์
+
+ให้ดู 3 จุด:
+
+1. Status code
+2. Response body
+3. Console log ของ Spring Boot
+
+ถ้า request ไม่ผ่าน อย่าดูแค่ Postman ให้กลับไปดู log ใน terminal ที่รัน Spring Boot ด้วย
+
+## Error ที่ควรลอง
+
+ลองเรียก:
+
+```text
+GET {{baseUrl}}/api/v1/users/999
+```
+
+ตอนนี้อาจได้ `500 Internal Server Error` เพราะเรายังไม่ได้ทำ exception handling นี่เป็นเรื่องตั้งใจ เพราะภาค 4 จะสอนเปลี่ยน error นี้ให้เป็น `404 Not Found`
+
+## ทดสอบด้วย curl
+
+ถ้าไม่ใช้ Postman สามารถใช้ curl:
+
+```powershell
+curl {{baseUrl}}/health
+```
+
+แต่ใน terminal จริงให้แทน `{{baseUrl}}` เป็น URL:
+
+```powershell
+curl http://localhost:8080/health
+```
+
+POST JSON บน Windows PowerShell:
+
+```powershell
+curl -Method POST http://localhost:8080/api/v1/users `
+  -ContentType "application/json" `
+  -Body '{"username":"john","email":"john@example.com"}'
+```
+
+## Checkpoint
+
+บทนี้ถือว่าสำเร็จเมื่อ collection มี request เหล่านี้:
+
+- Health
+- Create User
+- Get Users
+- Get User By Id
+- Delete User
+
+## แบบฝึกหัดท้ายบท
+
+เพิ่ม request สำหรับ `PUT /api/v1/users/{id}` ถ้าคุณทำแบบฝึกหัดจากบทก่อนหน้าแล้ว

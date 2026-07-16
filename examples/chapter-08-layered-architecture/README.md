@@ -31,4 +31,3 @@ Client/Postman
 - `UserController` ไม่วนลูปค้นหา user เองแล้ว
 - `UserService` เป็นที่รวม logic หลักของ user
 - เมื่อย้ายไปใช้ database ในบทถัดไป จะเปลี่ยนจาก `List<User>` เป็น `UserRepository` ได้ง่ายขึ้น
-

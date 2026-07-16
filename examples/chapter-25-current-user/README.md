@@ -9,4 +9,3 @@
 - `requests.http`
 
 ต้องใช้ร่วมกับ JWT config จากบทที่ 24
-

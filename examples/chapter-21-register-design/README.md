@@ -18,4 +18,3 @@ POST /api/v1/auth/register
 ```
 
 บทนี้ยังไม่ได้ hash password เพื่อให้เห็น register flow ก่อน บทที่ 22 จะปรับให้ปลอดภัยขึ้นทันที
-

@@ -9,4 +9,3 @@ src/main/java/com/example/backendapi/repository/UserRepository.java
 ```
 
 Repository นี้ต้องใช้ร่วมกับ `User` entity จากบทที่ 12
-

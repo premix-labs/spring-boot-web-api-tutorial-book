@@ -1,0 +1,78 @@
+---
+title: "API Test Guide"
+description: "วิธีทดสอบ API ด้วย browser, Postman และ command line"
+chapter: 52
+icon: book-marked
+part: "ภาคผนวก"
+---
+
+# API Test Guide
+
+## เป้าหมาย
+
+หน้านี้เป็นคู่มือเปิดดูเร็วสำหรับทดสอบ API ระหว่างอ่านหนังสือ
+
+## ทดสอบด้วย browser
+
+เหมาะกับ endpoint แบบ `GET` ที่ไม่ต้องส่ง body
+
+```text
+http://localhost:8080/hello
+http://localhost:8080/health
+```
+
+## ทดสอบด้วย Postman
+
+เหมาะกับ endpoint ที่ต้องกำหนด method, header, body หรือ token
+
+ตัวอย่าง `POST /api/v1/auth/login`
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+Header:
+
+```http
+Content-Type: application/json
+```
+
+## ทดสอบด้วย curl
+
+```powershell
+curl http://localhost:8080/health
+```
+
+POST JSON:
+
+```powershell
+curl -X POST http://localhost:8080/api/v1/auth/login `
+  -H "Content-Type: application/json" `
+  -d "{\"email\":\"john@example.com\",\"password\":\"password123\"}"
+```
+
+## ทดสอบ endpoint ที่ต้องใช้ JWT
+
+```http
+Authorization: Bearer <token>
+```
+
+ใน Postman ให้ใส่ header:
+
+```text
+Key: Authorization
+Value: Bearer {{token}}
+```
+
+## Checklist เวลา API ไม่ทำงาน
+
+1. Application รันอยู่หรือไม่
+2. Port ถูกต้องหรือไม่
+3. Path ถูกต้องหรือไม่
+4. HTTP method ถูกต้องหรือไม่
+5. Request body เป็น JSON ถูกต้องหรือไม่
+6. Header `Content-Type` ถูกต้องหรือไม่
+7. ถ้าเป็น protected endpoint ใส่ token แล้วหรือยัง

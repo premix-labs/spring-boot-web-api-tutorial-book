@@ -1,0 +1,173 @@
+---
+title: "Unit Test"
+description: "ทดสอบ service logic ด้วย JUnit และ Mockito โดยไม่เปิด Spring context ทั้งระบบ"
+chapter: 46
+icon: rocket
+part: "ภาค 7: Production Ready"
+---
+
+# Unit Test
+
+## เป้าหมายของบท
+
+บทนี้จะเริ่มเขียน unit test ให้ service logic สำคัญ เช่น register และ login
+
+หลังจบบทนี้ผู้อ่านควรเข้าใจ:
+
+- unit test ต่างจาก integration test อย่างไร
+- ใช้ JUnit 5 และ Mockito อย่างไร
+- pattern Arrange, Act, Assert คืออะไร
+- mock repository/password encoder/JWT service อย่างไร
+- test success และ error case อย่างไร
+
+## Unit test คืออะไร
+
+Unit test คือการทดสอบ logic หน่วยเล็ก โดยไม่เปิด Spring context ทั้งระบบ
+
+เหมาะกับ:
+
+- service method
+- mapper method
+- validation logic ที่ไม่ต้องพึ่ง framework
+- business rule
+
+ข้อดี:
+
+- เร็ว
+- pinpoint bug ง่าย
+- ไม่ต้องต่อ database จริง
+
+## Dependency สำหรับ test
+
+สำหรับ Spring Boot 4 ในโปรเจกต์นี้ dependency test จะถูกแยกตาม starter ที่ใช้ เช่น:
+
+```groovy
+testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
+testImplementation 'org.springframework.boot:spring-boot-starter-validation-test'
+testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+```
+
+ชุด test starter เหล่านี้มี JUnit 5 และเครื่องมือทดสอบของ Spring Boot มาให้ ส่วน Mockito สามารถใช้ผ่าน dependency test ของ Spring Boot ได้ตามตัวอย่างในบทนี้
+
+## สร้าง AuthServiceTest
+
+สร้างไฟล์:
+
+```text
+src/test/java/com/example/backendapi/service/AuthServiceTest.java
+```
+
+```java
+package com.example.backendapi.service;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
+import com.example.backendapi.dto.LoginRequest;
+import com.example.backendapi.dto.RegisterRequest;
+import com.example.backendapi.exception.DuplicateUserException;
+import com.example.backendapi.model.User;
+import com.example.backendapi.repository.UserRepository;
+import java.util.Optional;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+@ExtendWith(MockitoExtension.class)
+class AuthServiceTest {
+
+    @Mock
+    UserRepository userRepository;
+
+    @Mock
+    PasswordEncoder passwordEncoder;
+
+    @Mock
+    JwtService jwtService;
+
+    @InjectMocks
+    AuthService authService;
+
+    @Test
+    void register_shouldThrow_whenEmailAlreadyExists() {
+        RegisterRequest request = new RegisterRequest(
+                "john",
+                "john@example.com",
+                "password123"
+        );
+
+        when(userRepository.existsByEmail("john@example.com")).thenReturn(true);
+
+        assertThrows(DuplicateUserException.class, () -> authService.register(request));
+    }
+
+    @Test
+    void login_shouldReturnToken_whenPasswordMatches() {
+        User user = new User();
+        user.setId(1L);
+        user.setUsername("john");
+        user.setEmail("john@example.com");
+        user.setPassword("hashed-password");
+
+        when(userRepository.findByEmail("john@example.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("password123", "hashed-password")).thenReturn(true);
+        when(jwtService.generateToken(user)).thenReturn("jwt-token");
+
+        var response = authService.login(new LoginRequest("john@example.com", "password123"));
+
+        assertEquals("jwt-token", response.token());
+    }
+
+    @Test
+    void login_shouldThrow_whenPasswordDoesNotMatch() {
+        User user = new User();
+        user.setEmail("john@example.com");
+        user.setPassword("hashed-password");
+
+        when(userRepository.findByEmail("john@example.com")).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches("wrong", "hashed-password")).thenReturn(false);
+
+        assertThrows(BadCredentialsException.class,
+                () -> authService.login(new LoginRequest("john@example.com", "wrong")));
+    }
+}
+```
+
+## Arrange, Act, Assert
+
+โครงสร้าง test ที่อ่านง่าย:
+
+```text
+Arrange: เตรียม input/mock
+Act    : เรียก method ที่ต้องการทดสอบ
+Assert : ตรวจผลลัพธ์
+```
+
+ถ้า test อ่านยาก ให้แยกเป็น 3 ช่วงนี้ก่อน
+
+## Test อะไรบ้าง
+
+ควรเริ่มจาก case สำคัญ:
+
+- register สำเร็จ
+- username ซ้ำ
+- email ซ้ำ
+- login สำเร็จ
+- login email ไม่มี
+- login password ผิด
+- admin เปลี่ยน status ตัวเองเป็น INACTIVE ต้อง error
+
+## แบบฝึกหัดท้ายบท
+
+1. เขียน test register success
+2. เขียน test username ซ้ำ
+3. เขียน test email ซ้ำ
+4. เขียน test login password ผิด
+5. เขียน test admin disable ตัวเองแล้วต้อง error
